@@ -18,6 +18,17 @@ public class PCSellInfo : MonoBehaviour
     public bool pcAssembled = false;
     public bool pcSell = false;
 
+    Collider Collider;
+    Rigidbody rigidBody;
+    PCSellInfo pcSellInfo;
+
+    private void Start()
+    {
+        Collider = GetComponent<Collider>();
+        rigidBody = GetComponent<Rigidbody>();
+        pcSellInfo = GetComponent<PCSellInfo>();
+    }
+
     public void Update()
     {
         if (Body && PowerUnit && MotherBoard && VideoCard && CPU && RAM[0] && Storage[0])
@@ -36,6 +47,13 @@ public class PCSellInfo : MonoBehaviour
 
         Body = gameObject;
 
+        SearchPartsOnBody();
+
+        FindPrice();
+    }
+
+    private void SearchPartsOnBody()
+    {
         for (int i = 0; i < transform.childCount; i++)
         {
             switch (transform.GetChild(i).tag)
@@ -45,31 +63,32 @@ public class PCSellInfo : MonoBehaviour
                     break;
                 case "MotherBoard":
                     MotherBoard = transform.GetChild(i).gameObject;
-
-                    for (int j = 0; j < MotherBoard.transform.childCount; j++)
-                    {
-                        switch (MotherBoard.transform.GetChild(j).tag)
-                        {
-                            case "RAM":
-                                RAM.Add(MotherBoard.transform.GetChild(j).gameObject);
-                                break;
-                            case "CPU":
-                                CPU = MotherBoard.transform.GetChild(j).gameObject;
-                                break;
-                            case "VideoCard":
-                                VideoCard = MotherBoard.transform.GetChild(j).gameObject;
-                                break;
-                        }
-                    }
-
+                    SearchPartsOnMotherBoards();
                     break;
                 case "Storage":
                     Storage.Add(transform.GetChild(i).gameObject);
                     break;
             }
         }
+    }
 
-        FindPrice();
+    private void SearchPartsOnMotherBoards()
+    {
+        for (int j = 0; j < MotherBoard.transform.childCount; j++)
+        {
+            switch (MotherBoard.transform.GetChild(j).tag)
+            {
+                case "RAM":
+                    RAM.Add(MotherBoard.transform.GetChild(j).gameObject);
+                    break;
+                case "CPU":
+                    CPU = MotherBoard.transform.GetChild(j).gameObject;
+                    break;
+                case "VideoCard":
+                    VideoCard = MotherBoard.transform.GetChild(j).gameObject;
+                    break;
+            }
+        }
     }
 
     public int FindPrice()
@@ -102,5 +121,13 @@ public class PCSellInfo : MonoBehaviour
         CPU = null;
         Storage.Clear();
         StateController.assemblingMode = false;
+    }
+
+    public void SetSellAttributes(int price)
+    {
+        Collider.isTrigger = true;
+        rigidBody.useGravity = false;
+        pcSellInfo.pcPrice = price;
+        pcSellInfo.pcSell = true;
     }
 }

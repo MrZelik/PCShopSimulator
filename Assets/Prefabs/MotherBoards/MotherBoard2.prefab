@@ -473,6 +473,9 @@ MonoBehaviour:
   - {fileID: 0}
   startScale: {x: 0, y: 0, z: 0}
   price: 0
+  installedId: 0
+  isBody: 0
+  BodySideWall: {fileID: 0}
   equiped: 0
   installed: 0
 --- !u!114 &1074606999954156769
@@ -487,6 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58652e0b82efe3a4f9e042b6f18a5aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBody: 0
   TakePos: {fileID: 680427697403149734}
 --- !u!1 &8786641366244610561
 GameObject:

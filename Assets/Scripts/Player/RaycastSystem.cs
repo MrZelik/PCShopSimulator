@@ -13,13 +13,25 @@ public class RaycastSystem : MonoBehaviour
 
     public Ray ray;
 
+    ComputerController CC;
+    DayController DC;
+    PutUpForSaleSystem PUFSS;
+
+    private void Start()
+    {
+        CC = ComputerControllerGO.GetComponent<ComputerController>();
+        DC = Controller.GetComponent<DayController>();
+        PUFSS = Controller.GetComponent<PutUpForSaleSystem>();
+    }
+
     private void Update()
     {
         ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
-
-        if(Physics.Raycast(ray, out hit, maxUsableDistance))
+        Debug.DrawRay(ray.origin, ray.direction, Color.yellow, 0.1f);
+        if (Physics.Raycast(ray, out hit, maxUsableDistance))
         {
+           
             switch (hit.collider.gameObject.tag)
             {
                 case "Computer":
@@ -29,12 +41,12 @@ public class RaycastSystem : MonoBehaviour
 
                     if (Input.GetKeyDown(KeyCode.E) && !StateController.pcMode)
                     {
-                        ComputerControllerGO.GetComponent<ComputerController>().ChangePcMode();
+                        CC.ChangePcMode();
                         PressButtonText.gameObject.SetActive(false);
                     }
                     else if (Input.GetKeyDown(KeyCode.Escape) && StateController.pcMode)
                     {
-                        ComputerControllerGO.GetComponent<ComputerController>().ChangePcMode();
+                        CC.ChangePcMode();
                     }
                     break;
 
@@ -51,7 +63,7 @@ public class RaycastSystem : MonoBehaviour
 
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        Controller.GetComponent<DayController>().GoToSleep();
+                        DC.GoToSleep();
                     }
                     break;
 
@@ -65,7 +77,7 @@ public class RaycastSystem : MonoBehaviour
 
                         if (Input.GetKeyDown(KeyCode.E))
                         {
-                            Controller.GetComponent<PutUpForSaleSystem>().StartSale(hit.collider.gameObject);
+                           PUFSS.StartSale(hit.collider.gameObject);
                         }
                     }
                     break;

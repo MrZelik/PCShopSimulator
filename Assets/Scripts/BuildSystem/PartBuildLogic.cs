@@ -5,6 +5,7 @@ using UnityEngine;
 public class PartBuildLogic : MonoBehaviour
 {
     [SerializeField] private Vector3 partConnector;
+    [SerializeField] private Quaternion partRotator;
     public GameObject[] Connectors;
 
     [SerializeField] private string[] connectorTags;
@@ -13,18 +14,24 @@ public class PartBuildLogic : MonoBehaviour
 
     private GameObject Player;
 
-    public Vector3 startScale;
-
     public int price = 0;
+    public int installedId;
+
+    public bool isBody = false;
+    public GameObject BodySideWall;
 
     public bool equiped = false;
     public bool installed = false;
 
+    Collider Collider;
+    RaycastSystem raycastSystem;
+
     private void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("MainCamera");
+        Player = Camera.main.gameObject;
+        raycastSystem = Player.GetComponent<RaycastSystem>();
 
-        startScale = transform.localScale;
+        Collider = GetComponent<Collider>();
     }
 
     private void Update()
@@ -35,72 +42,111 @@ public class PartBuildLogic : MonoBehaviour
         }
         else if (StateController.assemblingMode && !equiped)
         {
-            for (int i = 0; i < Connectors.Length; i++)
-            {
-                if (Player.transform.GetChild(Player.transform.childCount - 1).gameObject.tag == connectorTags[i] && !installedParts[i])
-                {
-                    Connectors[i].SetActive(true);
-                }
-                else
-                {
-                    Connectors[i].SetActive(false);
-                }
-            }
+            ActivateConnectors();
         }
         else
         {
-            for (int i = 0; i < Connectors.Length; i++)
-            {
-                Connectors[i].SetActive(false);
-            }
+            DeactivateConnectors();
         }
     }
 
-    private void HideAllConnectors(GameObject hitGOParent)
-    {
-        for (int i = 0; i < Connectors.Length; i++)
-            hitGOParent.GetComponent<PartBuildLogic>().Connectors[i].SetActive(false);
-
-    }
-    
     private void SearchConnector()
     {
         RaycastHit hit;
-        if (Physics.Raycast(Player.GetComponent<RaycastSystem>().ray, out hit, Player.GetComponent<RaycastSystem>().maxUsableDistance))
+
+        if (Physics.Raycast(raycastSystem.ray, out hit, raycastSystem.maxUsableDistance))
         {
             switch (hit.collider.gameObject.tag)
             {
                 case "PartConnector":
                     if (Input.GetKeyDown(KeyCode.F))
                     {
-                        InstalledPart(hit.collider.gameObject);
+                        InstallPart(hit.collider.gameObject);
                     }
                     break;
             }
         }
     }
 
-    private void InstalledPart(GameObject hitGO)
+    private void InstallPart(GameObject hitGO)
     {
         GameObject hitGOParent = hitGO.transform.parent.gameObject;
 
-        transform.parent = null;
-       
-        Player.GetComponent<ItemCollector>().Part = null;
-        Player.GetComponent<ItemCollector>().ItemControllInfo.SetActive(false);
+        CollectableItem CI = hitGO.GetComponent<CollectableItem>();
+        PartBuildLogic ParentPBL = hitGOParent.GetComponent<PartBuildLogic>();
+        ItemCollector IC = Player.GetComponent<ItemCollector>();
 
-        Vector3 connectPos = hitGO.transform.localPosition;
+        ClearParent();
+        IC.ClearTakedPart();
+        FindInstallId(hitGOParent, hitGO, ParentPBL, CI);
+        SetPartPos(hitGO, hitGOParent);
 
-        for (int i = 0; i < hitGOParent.GetComponent<PartBuildLogic>().Connectors.Length; i++)
+        hitGO.SetActive(false);
+
+        SetInstalledAttribute();
+    }
+
+    private void ActivateConnectors()
+    {
+        if (isBody)
         {
-            if (hitGOParent.GetComponent<PartBuildLogic>().Connectors[i] == hitGO)
+            BodySideWall.SetActive(false);
+        }
+
+        for (int i = 0; i < Connectors.Length; i++)
+        {
+            if (Player.transform.GetChild(Player.transform.childCount - 1).gameObject.tag == connectorTags[i] && !installedParts[i])
             {
-                HideAllConnectors(hitGOParent);
-                hitGOParent.GetComponent<PartBuildLogic>().installedParts[i] = gameObject;
+                Connectors[i].SetActive(true);
+            }
+            else
+            {
+                Connectors[i].SetActive(false);
+            }
+        }
+    }
+
+    private void DeactivateConnectors()
+    {
+        if (isBody)
+        {
+            BodySideWall.SetActive(true);
+        }
+
+        for (int i = 0; i < Connectors.Length; i++)
+        {
+            Connectors[i].SetActive(false);
+        }
+    }
+
+    private void ClearParent()
+    {
+        transform.parent = null;
+    }
+
+    private void FindInstallId(GameObject hitGOParent, GameObject hitGO, PartBuildLogic ParentPBL, CollectableItem CI)
+    {
+        for (int i = 0; i < ParentPBL.Connectors.Length; i++)
+        {
+            if (ParentPBL.Connectors[i] == hitGO)
+            {
+                HideAllParentConnectors(hitGOParent, ParentPBL);
+                ParentPBL.installedParts[i] = gameObject;
+                installedId = i;
                 break;
             }
         }
+    }
 
+    private void HideAllParentConnectors(GameObject hitGOParent, PartBuildLogic ParentPBL)
+    {
+        for (int i = 0; i < Connectors.Length; i++)
+            ParentPBL.Connectors[i].SetActive(false);
+    }
+
+    private void SetPartPos(GameObject hitGO, GameObject hitGOParent)
+    {
+        Vector3 connectPos = hitGO.transform.localPosition;
         transform.position = connectPos;
         transform.SetParent(hitGOParent.transform, false);
         transform.rotation = hitGO.transform.rotation;
@@ -109,10 +155,12 @@ public class PartBuildLogic : MonoBehaviour
         pos += partConnector;
         transform.localPosition = pos;
 
-        hitGO.SetActive(false);
+        transform.localRotation = partRotator;
+    }
 
-        gameObject.GetComponent<Collider>().isTrigger = true;
-
+    private void SetInstalledAttribute()
+    {
+        Collider.isTrigger = true;
         equiped = false;
         installed = true;
     }

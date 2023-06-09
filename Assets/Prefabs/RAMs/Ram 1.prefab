@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8428940070307345284}
   - component: {fileID: -2024930610172129313}
   - component: {fileID: 142221384604096558}
+  - component: {fileID: -3302108511203214330}
   m_Layer: 8
   m_Name: Ram 1
   m_TagString: RAM
@@ -135,3 +136,16 @@ MonoBehaviour:
   price: 0
   equiped: 0
   installed: 0
+--- !u!114 &-3302108511203214330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8428940070307345282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58652e0b82efe3a4f9e042b6f18a5aa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TakePos: {fileID: 0}

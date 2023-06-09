@@ -14,6 +14,14 @@ public class PutUpForSaleSystem : MonoBehaviour
     private int pcPrice;
 
     private GameObject StandPos;
+    private GameObject PC;
+
+    ItemCollector itemCollector;
+
+    private void Start()
+    {
+        itemCollector = Camera.main.gameObject.GetComponent<ItemCollector>();
+    }
 
     private void Update()
     {
@@ -21,32 +29,64 @@ public class PutUpForSaleSystem : MonoBehaviour
         {
             if (Camera.main.transform.GetChild(0).gameObject.GetComponent<PCSellInfo>().pcAssembled)
             {
-                for (int i = 0; i < SellPoints.Length; i++)
-                {
-                    if (!PCOnSell[i])
-                    {
-                        SellPoints[i].SetActive(true);
-                    }
-                    else
-                    {
-                        SellPoints[i].SetActive(false);
-                    }
-                }
+                ShowSellPoints();
             }
             else
             {
-                for (int i = 0; i < SellPoints.Length; i++)
-                {
-                    SellPoints[i].SetActive(false);
-                }
+                HideSellPoints();
             }
         }
         else
         {
-            for (int i = 0; i < SellPoints.Length; i++)
+            HideSellPoints();
+        }
+    }
+
+    public void StartSale(GameObject hitGO)
+    {
+        StandPos = hitGO;
+        PC = Camera.main.transform.GetChild(0).gameObject.GetComponent<PCSellInfo>().Body;
+        inputPrice.text = PC.GetComponent<PCSellInfo>().pcPrice.ToString();
+
+        ChangeSellMode();
+    }
+
+    public void PutUpForSale()
+    {
+        PCSellInfo PSI = PC.GetComponent<PCSellInfo>();
+
+        pcPrice = int.Parse(inputPrice.text);
+
+        SetPCPosition(PC);
+        PSI.SetSellAttributes(pcPrice);
+        CheckStandPos(PC);
+
+        MoneyController.money += pcPrice;
+        ChangeSellMode();
+
+        itemCollector.SellPC();
+    }
+
+    private void ShowSellPoints()
+    {
+        for (int i = 0; i < SellPoints.Length; i++)
+        {
+            if (!PCOnSell[i])
+            {
+                SellPoints[i].SetActive(true);
+            }
+            else
             {
                 SellPoints[i].SetActive(false);
             }
+        }
+    }
+
+    private void HideSellPoints()
+    {
+        for (int i = 0; i < SellPoints.Length; i++)
+        {
+            SellPoints[i].SetActive(false);
         }
     }
 
@@ -70,39 +110,21 @@ public class PutUpForSaleSystem : MonoBehaviour
         }
     }
 
-    public void StartSale(GameObject hitGO)
+    private void SetPCPosition(GameObject PC)
     {
-        StandPos = hitGO;
-        GameObject PC = Camera.main.transform.GetChild(0).gameObject.GetComponent<PCSellInfo>().Body;
-        inputPrice.text = PC.GetComponent<PCSellInfo>().pcPrice.ToString();
-
-        ChangeSellMode();
-    }
-
-    public void PutUpForSale()
-    {
-        pcPrice = int.Parse(inputPrice.text);
-        GameObject PC = Camera.main.transform.GetChild(0).gameObject.GetComponent<PCSellInfo>().Body;
         PC.transform.parent = null;
         PC.transform.position = StandPos.transform.position;
         PC.transform.rotation = StandPos.transform.rotation;
-        PC.transform.localScale = new Vector3(0.7f, 1f, 1f);
-        PC.GetComponent<Collider>().isTrigger = true;
-        PC.GetComponent<Rigidbody>().useGravity = false;
-        PC.GetComponent<PCSellInfo>().pcPrice = pcPrice;
-        PC.GetComponent<PCSellInfo>().pcSell = true;
+    }
 
+    private void CheckStandPos(GameObject PC)
+    {
         for (int i = 0; i < SellPoints.Length; i++)
         {
-            if(StandPos == SellPoints[i])
+            if (StandPos == SellPoints[i])
                 PCOnSell[i] = PC;
         }
 
         StandPos = null;
-
-        MoneyController.money += pcPrice;
-        ChangeSellMode();
-
-        Camera.main.gameObject.GetComponent<ItemCollector>().SellPC();
     }
 }

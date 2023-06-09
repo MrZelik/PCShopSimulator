@@ -12,6 +12,7 @@ public class ItemCollector : MonoBehaviour
     RaycastSystem raycastSystem;
 
     public GameObject Part = null;
+    
 
     private void Start()
     {
@@ -35,20 +36,10 @@ public class ItemCollector : MonoBehaviour
 
         if (Physics.Raycast(raycastSystem.ray, out hit, raycastSystem.maxUsableDistance))
         {
-            switch (hit.collider.tag)
+            if (Input.GetKeyDown(KeyCode.E) && Part == null && hit.collider.gameObject.GetComponent<CollectableItem>())
             {
-                case "PowerUnit":
-                case "VideoCard":
-                case "MotherBoard":
-                case "RAM":
-                case "CPU":
-                case "Body":
-                case "Storage":
-                    if (Input.GetKeyDown(KeyCode.E) && Part == null)
-                    {
-                        TakePart(hit.collider.gameObject);
-                    }
-                    break;
+                Part = hit.collider.gameObject;
+                TakePart();
             }
         }
         else
@@ -57,60 +48,44 @@ public class ItemCollector : MonoBehaviour
         }
     }
 
-    private void TakePart(GameObject hit)
+    private void TakePart()
     {
-        Part = hit;
+        CollectableItem CI = Part.gameObject.GetComponent<CollectableItem>();
 
-        if (Part.GetComponent<PCSellInfo>() && Part.GetComponent<PCSellInfo>().pcSell)
+        if (CI.PCSellCheck())
         {
             Part = null;
             return;
         }
-            
 
-        if (Part.GetComponent<PartBuildLogic>().installed)
-        {
-            for (int i = 0; i < Part.transform.parent.gameObject.GetComponent<PartBuildLogic>().installedParts.Length; i++)
-            {
-                if (Part.transform.parent.gameObject.GetComponent<PartBuildLogic>().installedParts[i] == Part)
-                {
-                    Part.transform.parent.gameObject.GetComponent<PartBuildLogic>().installedParts[i] = null;
-                    Part.GetComponent<PartBuildLogic>().installed = false;
-                }
-            }
-        }
-
-       
-        Part.transform.position = PartPos;   //тут надо сделать вызов функций
-        Part.transform.SetParent(Player.transform, false);
-
-        if (Part.GetComponent<CollectableItem>())
-        {
-            Part.transform.localPosition -= Part.GetComponent<CollectableItem>().TakePos.localPosition;
-        }
-
-        if (Part.GetComponent<PCSellInfo>())
-        {
-            Part.GetComponent<PCSellInfo>().FindParts();
-        }
+        CI.RemovalPart();
+        CI.TakePart();
+        CI.SetPosition(PartPos);
+        CI.FindPCPrice();
         
         ItemControllInfo.SetActive(true);
     }
 
     private void DropPart()
     {
-        Part.GetComponent<Collider>().isTrigger = false;
-        Part.GetComponent<Rigidbody>().isKinematic = false;
-        Part.GetComponent<Rigidbody>().AddForce(transform.forward * 100);
-        Part.GetComponent<PartBuildLogic>().equiped = false;
-        Part.transform.parent = null;
-        Part = null;
-        ItemControllInfo.SetActive(false);
+        CollectableItem CI = Part.gameObject.GetComponent<CollectableItem>();
+
+        CI.DropPart();
+        ClearTakedPart();
     }
 
     public void SellPC()
     {
-        Part.GetComponent<PartBuildLogic>().equiped = false;
+        CollectableItem CI = Part.gameObject.GetComponent<CollectableItem>();
+
+        CI.SellPC();
+
+        Part = null;
+        ItemControllInfo.SetActive(false);
+    }
+
+    public void ClearTakedPart()
+    {
         Part = null;
         ItemControllInfo.SetActive(false);
     }

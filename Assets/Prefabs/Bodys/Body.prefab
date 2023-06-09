@@ -377,6 +377,9 @@ MonoBehaviour:
   - {fileID: 0}
   startScale: {x: 0, y: 0, z: 0}
   price: 0
+  installedId: 0
+  isBody: 1
+  BodySideWall: {fileID: 0}
   equiped: 0
   installed: 0
 --- !u!114 &7971704931320145949
@@ -391,6 +394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58652e0b82efe3a4f9e042b6f18a5aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBody: 1
   TakePos: {fileID: 4763640479863676764}
 --- !u!114 &-2169892384099131876
 MonoBehaviour:
@@ -414,6 +418,7 @@ MonoBehaviour:
   CPU: {fileID: 0}
   Storage: []
   pcAssembled: 0
+  pcSell: 0
 --- !u!1 &7072153773900408076
 GameObject:
   m_ObjectHideFlags: 0

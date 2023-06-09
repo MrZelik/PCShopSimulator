@@ -33,7 +33,6 @@ public class MessageController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI heHelloMessageText;
     [SerializeField] private GameObject PriceError;
     
-    private int price;
     private int PostId;
     private int countMessage = 0;
     private Slot slot;
@@ -61,35 +60,14 @@ public class MessageController : MonoBehaviour
 
     public void ShowMessagePanel(int slotId)
     {
-        gameObject.SetActive(true);
-        ShopPanels.SetActive(false);
+        OpenMessagePanel();
+        ReloadMessagePanel();
+        PrintHelloMessages();
+        SetSenderPanel(slotId);
+        LoadPostInfo();
 
-        countMessage = 0;
-        firstAnswerText.gameObject.SetActive(false);
-        firstPriceText.gameObject.SetActive(false);
-        SecondAnswerText.gameObject.SetActive(false);
-        SecondPriceText.gameObject.SetActive(false);
-        PriceInputField.text = "";
-        PriceInputField.interactable = true;
-        SendBTN.interactable = true;
-
-        myHelloMessageText.text = myHelloMessage[Random.Range(0,myHelloMessage.Length)];
-        heHelloMessageText.text = heHelloMessage[Random.Range(0,heHelloMessage.Length)];
-
-        slot = SenderPanel.GetComponent<UsedPartsController>().Slots[slotId];
-
-        avatarNameText.text = avatarNames[Random.Range(0, avatarNames.Length)];
-        NameText.text = slot.partName;
-        PriceText.text = slot.partPrice.ToString() + " Рублей";
-        DescriptionText.text = partDescription[Random.Range(0, partDescription.Length)];
-        Avatar.sprite = AvatarImages[Random.Range(0,AvatarImages.Length)];
-        PartImage.sprite = slot.PartImage;
-
-        price = slot.partPrice;
         PostId = slotId;
     }
-
-    
 
     public void AddPrice()
     {
@@ -98,70 +76,153 @@ public class MessageController : MonoBehaviour
 
         if (countMessage == 0)
         {
-            firstPrice = inputPrice;
-
-            if (inputPrice >= slot.partPrice)
-            {
-                firstPriceText.text = inputPrice.ToString();
-                firstPriceText.gameObject.SetActive(true);
-                firstAnswerText.gameObject.SetActive(true);
-                firstAnswerText.text = sellMessage[Random.Range(0, sellMessage.Length)];
-                BuyUsedPartsSystem.BuyPart(PostId,SenderPanel, inputPrice);
-                PriceInputField.interactable = false;
-                SendBTN.interactable = false;
-                return;
-            }
-            else if (inputPrice <= minPrice)
-            {
-                StartCoroutine(ShowErrorPrice());
-                return;
-            }
-
-            firstPriceText.text = inputPrice.ToString();
-            firstPriceText.gameObject.SetActive(true);
-            firstAnswerText.gameObject.SetActive(true);
-
-            if (Random.Range(0, 2) == 0)
-            {
-                firstAnswerText.text = "Мало";
-                countMessage++;
-            }
-            else
-            {
-                firstAnswerText.text = sellMessage[Random.Range(0, sellMessage.Length)];
-                BuyUsedPartsSystem.BuyPart(PostId, SenderPanel, inputPrice);
-                PriceInputField.interactable = false;
-                SendBTN.interactable = false;
-            }
+            FirstPurchaseAttempt(inputPrice, minPrice);
         }
         else
         {
-            if (inputPrice <= minPrice)
-            {
-                StartCoroutine(ShowErrorPrice());
-                return;
-            }
-
-            SecondPriceText.text = inputPrice.ToString();
-            SecondPriceText.gameObject.SetActive(true);
-            SecondAnswerText.gameObject.SetActive(true);
-
-            if (Random.Range(0, 2) == 0 || firstPrice >= inputPrice)
-            {
-                SecondAnswerText.text = "Нет, досвидания";
-                countMessage++;
-                PriceInputField.interactable = false;
-                SendBTN.interactable = false;
-            }
-            else
-            {
-                SecondAnswerText.text = sellMessage[Random.Range(0,sellMessage.Length)];
-                BuyUsedPartsSystem.BuyPart(PostId, SenderPanel, inputPrice);
-                PriceInputField.interactable = false;
-                SendBTN.interactable = false;
-            }
-
+            SecondPurchaseAttempt(inputPrice, minPrice);
         }
+    }
+
+    private void SetSenderPanel(int slotId)
+    {
+        slot = SenderPanel.GetComponent<UsedPartsController>().Slots[slotId];
+    }
+
+    private void OpenMessagePanel()
+    {
+        gameObject.SetActive(true);
+        ShopPanels.SetActive(false);
+    }
+
+    private void ReloadMessagePanel()
+    {
+        countMessage = 0;
+        firstAnswerText.gameObject.SetActive(false);
+        firstPriceText.gameObject.SetActive(false);
+        SecondAnswerText.gameObject.SetActive(false);
+        SecondPriceText.gameObject.SetActive(false);
+        PriceInputField.text = "";
+        PriceInputField.interactable = true;
+        SendBTN.interactable = true;
+    }
+
+    private void PrintHelloMessages()
+    {
+        myHelloMessageText.text = myHelloMessage[Random.Range(0, myHelloMessage.Length)];
+        heHelloMessageText.text = heHelloMessage[Random.Range(0, heHelloMessage.Length)];
+    }
+
+    private void LoadPostInfo()
+    {
+        avatarNameText.text = avatarNames[Random.Range(0, avatarNames.Length)];
+        NameText.text = slot.partName;
+        PriceText.text = slot.partPrice.ToString() + " Рублей";
+        DescriptionText.text = partDescription[Random.Range(0, partDescription.Length)];
+        Avatar.sprite = AvatarImages[Random.Range(0, AvatarImages.Length)];
+        PartImage.sprite = slot.PartImage;
+    }
+
+    private void FirstPurchaseAttempt(int inputPrice, int minPrice)
+    {
+        firstPrice = inputPrice;
+
+        if (inputPrice >= slot.partPrice)
+        {
+            BuyOverprice(inputPrice);
+            return;
+        }
+        else if (inputPrice <= minPrice)
+        {
+            StartCoroutine(ShowErrorPrice());
+            return;
+        }
+
+        PrintFirstPrice(inputPrice);
+
+        if (Random.Range(0, 2) == 0)
+        {
+            RejectionFirstPrice();
+        }
+        else
+        {
+            BuyFirstPrice(inputPrice);
+        }
+    }
+
+    private void SecondPurchaseAttempt(int inputPrice, int minPrice)
+    {
+        if (inputPrice <= minPrice)
+        {
+            StartCoroutine(ShowErrorPrice());
+            return;
+        }
+
+        PrintSecondPrice(inputPrice);
+
+        if (Random.Range(0, 2) == 0 || firstPrice >= inputPrice)
+        {
+            RejectionSecondPrice();
+        }
+        else
+        {
+            BuySecondPrice(inputPrice);
+        }
+    }
+
+    private void BuyOverprice(int inputPrice)
+    {
+        firstPriceText.text = inputPrice.ToString();
+        firstPriceText.gameObject.SetActive(true);
+        firstAnswerText.gameObject.SetActive(true);
+        firstAnswerText.text = sellMessage[Random.Range(0, sellMessage.Length)];
+        BuyUsedPartsSystem.BuyPart(PostId, SenderPanel, inputPrice);
+        PriceInputField.interactable = false;
+        SendBTN.interactable = false;
+    }
+
+    private void PrintFirstPrice(int inputPrice)
+    {
+        firstPriceText.text = inputPrice.ToString();
+        firstPriceText.gameObject.SetActive(true);
+        firstAnswerText.gameObject.SetActive(true);
+    }
+
+    private void RejectionFirstPrice()
+    {
+        firstAnswerText.text = "Мало";
+        countMessage++;
+    }
+
+    private void BuyFirstPrice(int inputPrice)
+    {
+        firstAnswerText.text = sellMessage[Random.Range(0, sellMessage.Length)];
+        BuyUsedPartsSystem.BuyPart(PostId, SenderPanel, inputPrice);
+        PriceInputField.interactable = false;
+        SendBTN.interactable = false;
+    }
+
+    private void PrintSecondPrice(int inputPrice)
+    {
+        SecondPriceText.text = inputPrice.ToString();
+        SecondPriceText.gameObject.SetActive(true);
+        SecondAnswerText.gameObject.SetActive(true);
+    }
+
+    private void RejectionSecondPrice()
+    {
+        SecondAnswerText.text = "Нет, досвидания";
+        countMessage++;
+        PriceInputField.interactable = false;
+        SendBTN.interactable = false;
+    }
+
+    private void BuySecondPrice(int inputPrice)
+    {
+        SecondAnswerText.text = sellMessage[Random.Range(0, sellMessage.Length)];
+        BuyUsedPartsSystem.BuyPart(PostId, SenderPanel, inputPrice);
+        PriceInputField.interactable = false;
+        SendBTN.interactable = false;
     }
 
     IEnumerator ShowErrorPrice()

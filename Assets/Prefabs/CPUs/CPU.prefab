@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 6513756777547061499}
   - component: {fileID: -5285058556280852476}
   - component: {fileID: -6330068558774302659}
+  - component: {fileID: 1452059448087798581}
   m_Layer: 8
   m_Name: CPU
   m_TagString: CPU
@@ -167,3 +168,16 @@ MonoBehaviour:
   price: 0
   equiped: 0
   installed: 0
+--- !u!114 &1452059448087798581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6513756777547061497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58652e0b82efe3a4f9e042b6f18a5aa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TakePos: {fileID: 0}

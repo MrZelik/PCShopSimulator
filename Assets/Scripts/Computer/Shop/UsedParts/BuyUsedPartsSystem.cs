@@ -19,9 +19,8 @@ public class BuyUsedPartsSystem : MonoBehaviour
 
     public void BuyPart(int slotId, GameObject Sender, int price)
     {
-        
-
         Slot slot = Sender.GetComponent<UsedPartsController>().Slots[slotId];
+
         if (MoneyController.money - slot.partPrice >= 0)
         {
             GameObject part = Instantiate(slot.PartGO);
