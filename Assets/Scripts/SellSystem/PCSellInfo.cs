@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PCSellInfo : MonoBehaviour
 {
+    public Vector3 SellPos;
+
     public int pcPrice;
 
     public GameObject WiresPrefab;
@@ -13,6 +15,7 @@ public class PCSellInfo : MonoBehaviour
     public GameObject VideoCard;
     public List<GameObject> RAM = new List<GameObject>();
     public GameObject CPU;
+    public GameObject CPUFan;
     public List<GameObject> Storage = new List<GameObject>();
 
     public bool pcAssembled = false;
@@ -83,6 +86,13 @@ public class PCSellInfo : MonoBehaviour
                     break;
                 case "CPU":
                     CPU = MotherBoard.transform.GetChild(j).gameObject;
+
+                    for (int i = 0; i < CPU.transform.childCount; i++)
+                    {
+                        if(CPU.transform.GetChild(i).tag == "CPUFan")
+                            CPUFan = CPU.transform.GetChild(i).gameObject;
+                    }
+
                     break;
                 case "VideoCard":
                     VideoCard = MotherBoard.transform.GetChild(j).gameObject;
@@ -93,10 +103,14 @@ public class PCSellInfo : MonoBehaviour
 
     public int FindPrice()
     {
+        pcPrice = 0;
         pcPrice += PowerUnit.GetComponent<PartBuildLogic>().price;
         pcPrice += MotherBoard.GetComponent<PartBuildLogic>().price;
         pcPrice += Body.GetComponent<PartBuildLogic>().price;
         pcPrice += VideoCard.GetComponent<PartBuildLogic>().price;
+        pcPrice += CPU.GetComponent<PartBuildLogic>().price;
+        pcPrice += CPUFan.GetComponent<PartBuildLogic>().price;
+
 
         for (int i = 0; i < Storage.Count; i++)
         {
@@ -119,6 +133,7 @@ public class PCSellInfo : MonoBehaviour
         VideoCard = null;
         RAM.Clear();
         CPU = null;
+        CPUFan = null;
         Storage.Clear();
         StateController.assemblingMode = false;
     }
@@ -129,5 +144,27 @@ public class PCSellInfo : MonoBehaviour
         rigidBody.useGravity = false;
         pcSellInfo.pcPrice = price;
         pcSellInfo.pcSell = true;
+    }
+
+    public void SellParts()
+    {
+        PowerUnit.GetComponent<CollectableItem>().PartSell = true;
+
+        MotherBoard.GetComponent<CollectableItem>().PartSell = true;
+
+        for (int i = 0; i < Storage.Count; i++)
+        {
+            Storage[i].GetComponent<CollectableItem>().PartSell = true;
+        }
+        for (int i = 0; i < RAM.Count; i++)
+        {
+            RAM[i].GetComponent<CollectableItem>().PartSell = true;
+        }
+
+        CPU.GetComponent<CollectableItem>().PartSell = true;
+
+        CPUFan.GetComponent<CollectableItem>().PartSell = true;
+
+        VideoCard.GetComponent<CollectableItem>().PartSell = true;
     }
 }

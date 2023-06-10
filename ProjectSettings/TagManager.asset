@@ -16,6 +16,8 @@ TagManager:
   - PartConnector
   - Bed
   - SellPoint
+  - CPUFan
+  - BodyFan
   layers:
   - Default
   - TransparentFX

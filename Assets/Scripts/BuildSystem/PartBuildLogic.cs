@@ -148,7 +148,12 @@ public class PartBuildLogic : MonoBehaviour
     {
         Vector3 connectPos = hitGO.transform.localPosition;
         transform.position = connectPos;
+
         transform.SetParent(hitGOParent.transform, false);
+
+        Vector3 scale = new Vector3(transform.localScale.x / hitGOParent.transform.localScale.x, transform.localScale.y / hitGOParent.transform.localScale.y, transform.localScale.z / hitGOParent.transform.localScale.z);
+        transform.localScale = scale;
+
         transform.rotation = hitGO.transform.rotation;
 
         Vector3 pos = transform.localPosition;

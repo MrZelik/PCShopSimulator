@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PlayerMover" Collapsed="true">
+    <Position X="16.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwAAAAAACAQAAAAAAAAAAAAAAAAAAAIAAAAACIAAAA=</HashCode>
+      <FileName>Assets\Scripts\Player\PlayerMover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ItemCollector" Collapsed="true">
+    <Position X="18.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAAICAAAEAAAAAAQAAAAAAAFAABAAAAAUAAAAE=</HashCode>
+      <FileName>Assets\Scripts\Player\ItemCollector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnityEngine.MonoBehaviour" Collapsed="true">
+    <Position X="13.5" Y="1" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="CollectableItem" Collapsed="true">
+    <Position X="6.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAYAAAAAAAAAEAAAAAgQAAAMCAAAgAwAQAAAUAFAEA=</HashCode>
+      <FileName>Assets\Scripts\BuildSystem\CollectableItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PartBuildLogic" Collapsed="true">
+    <Position X="8.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AGQbgAEAACAAAAAAAAQAAAAAAKAAAIARAAAAAYKaAAg=</HashCode>
+      <FileName>Assets\Scripts\BuildSystem\PartBuildLogic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PCAssembler" Collapsed="true">
+    <Position X="10.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAECAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\BuildSystem\PCAssembler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RaycastSystem" Collapsed="true">
+    <Position X="20" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAIASAAAAASAgAAAAAAAAAAAAAAAAAAIEAIAAA=</HashCode>
+      <FileName>Assets\Scripts\Player\RaycastSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComputerController" Collapsed="true">
+    <Position X="14.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Computer\ComputerController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShopController" Collapsed="true">
+    <Position X="12.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAQAAAAABAAABAAAAAQAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Computer\Shop\ShopController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UsedPartsPanelController" Collapsed="true">
+    <Position X="16.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAACAEAAEAAAAiAAAAEQEAAgAAAAAAAAAAQAiAACAQ=</HashCode>
+      <FileName>Assets\Scripts\Computer\Shop\UsedParts\UsedPartsPanelController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UsedPartsController" Collapsed="true">
+    <Position X="14.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QBAAAAAQACAAAAAIABAgEAAAAAAAAAQAAAAAAgBAQAA=</HashCode>
+      <FileName>Assets\Scripts\Computer\Shop\UsedParts\UsedPartsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PartInfo" Collapsed="true">
+    <Position X="6.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAACAAAAAAAAAAAAAQAAAAAABAAAAAAAAAAAwA=</HashCode>
+      <FileName>Assets\Scripts\Computer\Shop\UsedParts\PartInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Slot" Collapsed="true">
+    <Position X="8.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAgAAAAAAAAAAAAAAAAAAAAAACAAABAAUA=</HashCode>
+      <FileName>Assets\Scripts\Computer\Shop\UsedParts\PartInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Object" Collapsed="true">
+    <Position X="6.75" Y="5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="MessageController" Collapsed="true">
+    <Position X="12.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MIFIABAASyMQQAkMQCQQAAuAIAAAAABADAoSBYRAQhg=</HashCode>
+      <FileName>Assets\Scripts\Computer\Shop\UsedParts\MessageController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuyUsedPartsSystem" Collapsed="true">
+    <Position X="11" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAQAAAAAAAAAAAAAAAAAAEAAACAAYQCAAE=</HashCode>
+      <FileName>Assets\Scripts\Computer\Shop\UsedParts\BuyUsedPartsSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SetSellAttributes" Collapsed="true">
+    <Position X="15" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\SellSystem\SetSellAttributes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CursorController" Collapsed="true">
+    <Position X="10.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAACAAAAAAAAEAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\CursorController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DayController" Collapsed="true">
+    <Position X="12" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAEAAAABAAAAAAAgAAAAA=</HashCode>
+      <FileName>Assets\Scripts\DayController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoneyController" Collapsed="true">
+    <Position X="8.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Scripts\MoneyController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StateController" Collapsed="true">
+    <Position X="6.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACQgAAAAAAAAAAAAAAAAAAEQAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\StateController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PutUpForSaleSystem" Collapsed="true">
+    <Position X="17" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BEQAAAAECCAAICASABCAAAAQAQAAQAAAABQAEAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\SellSystem\PutUpForSaleSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PCSellInfo" Collapsed="true">
+    <Position X="19" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GCYoAAAASCAQAAAAAAABAACAAEAQMAAQgAAEEAAEBgA=</HashCode>
+      <FileName>Assets\Scripts\SellSystem\PCSellInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

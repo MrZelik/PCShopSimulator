@@ -7,6 +7,7 @@ public class CollectableItem : MonoBehaviour
 {
     public bool isBody = false;
     public Transform TakePos;
+    public Quaternion TakeRotate;
 
     PartBuildLogic partBuildLogic;
     Rigidbody rigidBody;
@@ -14,6 +15,8 @@ public class CollectableItem : MonoBehaviour
     PCSellInfo pcSellInfo;
 
     GameObject Player;
+
+    public bool PartSell;
 
     private void Awake()
     {
@@ -40,7 +43,7 @@ public class CollectableItem : MonoBehaviour
         rigidBody.isKinematic = true;
         partBuildLogic.equiped = true;
         transform.parent = null;
-        transform.rotation = new Quaternion(0, 0, 0, 0);
+        transform.rotation = TakeRotate;
     }
 
     public void SetPosition(Vector3 PartPos)
@@ -59,7 +62,7 @@ public class CollectableItem : MonoBehaviour
     {
         Collider.isTrigger = false;
         rigidBody.isKinematic = false;
-        rigidBody.AddForce(transform.forward * 100);
+        rigidBody.AddForce(transform.parent.transform.forward * 100);
         partBuildLogic.equiped = false;
         transform.parent = null;
     }
@@ -72,6 +75,7 @@ public class CollectableItem : MonoBehaviour
     public void SellPC()
     {
         partBuildLogic.equiped = false;
+        pcSellInfo.SellParts();
     }
 
     public bool PCSellCheck()
@@ -89,7 +93,10 @@ public class CollectableItem : MonoBehaviour
         }
         else
         {
-            return false;
+            if (PartSell)
+                return true;
+            else
+                return false;
         }
     }
 }

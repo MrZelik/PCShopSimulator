@@ -28,10 +28,10 @@ public class RaycastSystem : MonoBehaviour
     {
         ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
-        Debug.DrawRay(ray.origin, ray.direction, Color.yellow, 0.1f);
+        
         if (Physics.Raycast(ray, out hit, maxUsableDistance))
         {
-           
+            Debug.DrawLine(ray.origin, hit.point, Color.yellow);
             switch (hit.collider.gameObject.tag)
             {
                 case "Computer":
@@ -89,6 +89,7 @@ public class RaycastSystem : MonoBehaviour
                 case "CPU":
                 case "Body":
                 case "Storage":
+                case "CPUFan":
                     PressButtonText.gameObject.SetActive(true);
                     PressButtonText.text = "Press E";
                     interactionText.text = "Подобрать";

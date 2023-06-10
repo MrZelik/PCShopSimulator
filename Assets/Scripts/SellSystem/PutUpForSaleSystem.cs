@@ -57,7 +57,7 @@ public class PutUpForSaleSystem : MonoBehaviour
 
         pcPrice = int.Parse(inputPrice.text);
 
-        SetPCPosition(PC);
+        SetPCPosition(PC, PSI);
         PSI.SetSellAttributes(pcPrice);
         CheckStandPos(PC);
 
@@ -110,10 +110,10 @@ public class PutUpForSaleSystem : MonoBehaviour
         }
     }
 
-    private void SetPCPosition(GameObject PC)
+    private void SetPCPosition(GameObject PC, PCSellInfo PSI)
     {
         PC.transform.parent = null;
-        PC.transform.position = StandPos.transform.position;
+        PC.transform.position = StandPos.transform.position + PSI.SellPos;
         PC.transform.rotation = StandPos.transform.rotation;
     }
 
@@ -127,4 +127,6 @@ public class PutUpForSaleSystem : MonoBehaviour
 
         StandPos = null;
     }
+
+
 }
