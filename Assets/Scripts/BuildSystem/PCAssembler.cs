@@ -7,8 +7,11 @@ public class PCAssembler : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI assemblingModeText;
 
+    public static bool CanSell = false;
+
     private void Start()
     {
+        CanSell = false;
         assemblingModeText.text = "B - войти в режим сборки";
     }
 

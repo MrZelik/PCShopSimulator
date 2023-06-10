@@ -134,7 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isBody: 0
   TakePos: {fileID: 5010558653189878257}
-  TakeRotate: {x: 0, y: 0, z: 0, w: 0}
+  TakeRotate: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
   PartSell: 0
 --- !u!114 &-2871344318912586339
 MonoBehaviour:

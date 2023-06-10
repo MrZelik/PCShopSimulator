@@ -37,10 +37,12 @@ public class PCSellInfo : MonoBehaviour
         if (Body && PowerUnit && MotherBoard && VideoCard && CPU && RAM[0] && Storage[0])
         {
             pcAssembled = true;
+            PCAssembler.CanSell = true;
         }
         else
         {
             pcAssembled = false;
+            PCAssembler.CanSell = false;
         }
     }
 

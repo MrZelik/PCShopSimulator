@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class CursorController : MonoBehaviour
 {
     [SerializeField] private Image CursorImage;
-    public CursorMode cursorMode = CursorMode.Auto;
 
     RaycastSystem RaycastSystem;
 
@@ -20,6 +19,40 @@ public class CursorController : MonoBehaviour
 
     private void Update()
     {
+        ChangeCursorMode();
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(RaycastSystem.ray, out hit, RaycastSystem.maxUsableDistance))
+        {
+            if (hit.collider.gameObject.GetComponent<CollectableItem>())
+            {
+                CheckCollectableIteComponent();
+                return;
+            }
+
+            switch (hit.collider.gameObject.tag) 
+            {
+                case "Computer":
+                case "PartConnector":
+                case "Bed":
+                case "SellPoint":
+                    SetCursorGreenColor();
+                    break;
+
+                default:
+                    SetCursorWhiteColor();
+                    break;
+            }   
+        }
+        else
+        {
+            SetCursorWhiteColor();
+        }
+    }
+
+    private void ChangeCursorMode()
+    {
         if (StateController.pcMode)
         {
             CursorImage.gameObject.SetActive(false);
@@ -29,35 +62,20 @@ public class CursorController : MonoBehaviour
         {
             CursorImage.gameObject.SetActive(true);
         }
+    }
 
-        RaycastHit hit;
+    private void CheckCollectableIteComponent()
+    {
+        SetCursorGreenColor();
+    }
 
-        if (Physics.Raycast(RaycastSystem.ray, out hit, RaycastSystem.maxUsableDistance))
-        {
-            switch (hit.collider.gameObject.tag) 
-            {
-                case "PowerUnit":
-                case "VideoCard":
-                case "MotherBoard":
-                case "RAM":
-                case "CPU":
-                case "Body":
-                case "Storage":
-                case "Computer":
-                case "PartConnector":
-                case "Bed":
-                case "SellPoint":
-                    CursorImage.color = Color.green;
-                    break;
+    private void SetCursorWhiteColor()
+    {
+        CursorImage.color = Color.white;
+    }
 
-                default:
-                    CursorImage.color = Color.white;
-                    break;
-            }
-        }
-        else
-        {
-            CursorImage.color = Color.white;
-        }
+    private void SetCursorGreenColor()
+    {
+        CursorImage.color = Color.green;
     }
 }

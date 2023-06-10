@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class BuyUsedPartsSystem : MonoBehaviour
 {
-    [Header("Parts")]
-    [SerializeField] GameObject[] PowerUnits;
-    [SerializeField] GameObject[] MotherBoards;
-    [SerializeField] GameObject[] Rams;
-    [SerializeField] GameObject[] VideoCards;
-    [SerializeField] GameObject[] Storages;
-
     [Header("Panels")]
     [SerializeField] GameObject NoEnoughtPanel;
 

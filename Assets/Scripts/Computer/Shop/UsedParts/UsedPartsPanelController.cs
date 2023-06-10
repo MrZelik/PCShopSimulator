@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +11,10 @@ public class UsedPartsPanelController : MonoBehaviour
     [SerializeField] GameObject VideoCardsPanel;
     [SerializeField] GameObject StoragesPanel;
     [SerializeField] GameObject CPUsPanel;
+    [SerializeField] GameObject CPUFansPanel;
     [SerializeField] GameObject BodysPanel;
 
-    public void ClosePartPanel()
+    public void ClosePartPanels()
     {
         PowerUnitsPanel.SetActive(false);
         MotherBoardsPanel.SetActive(false);
@@ -22,48 +22,55 @@ public class UsedPartsPanelController : MonoBehaviour
         VideoCardsPanel.SetActive(false);
         StoragesPanel.SetActive(false);
         CPUsPanel.SetActive(false);
+        CPUFansPanel.SetActive(false);
         BodysPanel.SetActive(false);
     }
 
     public void OpenPowerUnitsPanel()
     {
-        ClosePartPanel();
+        ClosePartPanels();
         PowerUnitsPanel.SetActive(true);
     }
 
     public void OpenMotherBoardsPanel()
     {
-        ClosePartPanel();
+        ClosePartPanels();
         MotherBoardsPanel.SetActive(true);
     }
 
     public void OpenRamsPanel()
     {
-        ClosePartPanel();
+        ClosePartPanels();
         RamsPanel.SetActive(true);
     }
 
     public void OpenVideoCardsPanel()
     {
-        ClosePartPanel();
+        ClosePartPanels();
         VideoCardsPanel.SetActive(true);
     }
 
     public void OpenStoragesPanel()
     {
-        ClosePartPanel();
+        ClosePartPanels();
         StoragesPanel.SetActive(true);
     }
 
     public void OpenCPUsPanel()
     {
-        ClosePartPanel();
+        ClosePartPanels();
         CPUsPanel.SetActive(true);
+    }
+
+    public void OpenCPUFansPanel()
+    {
+        ClosePartPanels();
+        CPUFansPanel.SetActive(true);
     }
 
     public void OpenBodysPanel()
     {
-        ClosePartPanel();
+        ClosePartPanels();
         BodysPanel.SetActive(true);
     }
 }

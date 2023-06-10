@@ -31,78 +31,101 @@ public class RaycastSystem : MonoBehaviour
         
         if (Physics.Raycast(ray, out hit, maxUsableDistance))
         {
-            Debug.DrawLine(ray.origin, hit.point, Color.yellow);
+            if (hit.collider.gameObject.GetComponent<CollectableItem>())
+            {
+                CheckCollectableIteComponent();
+                return;
+            }
+
             switch (hit.collider.gameObject.tag)
             {
                 case "Computer":
-                    PressButtonText.gameObject.SetActive(true);
-                    PressButtonText.text = "Press E";
-                    interactionText.text = "Использовать компьютер";
-
-                    if (Input.GetKeyDown(KeyCode.E) && !StateController.pcMode)
-                    {
-                        CC.ChangePcMode();
-                        PressButtonText.gameObject.SetActive(false);
-                    }
-                    else if (Input.GetKeyDown(KeyCode.Escape) && StateController.pcMode)
-                    {
-                        CC.ChangePcMode();
-                    }
+                    ShowComputerControllInfo();
                     break;
 
                 case "PartConnector":
-                    PressButtonText.gameObject.SetActive(true);
-                    PressButtonText.text = "Press F";
-                    interactionText.text = "Установить деталь";
+                    ShowPartConnectorControllInfo();
                     break;
 
                 case "Bed":
-                    PressButtonText.gameObject.SetActive(true);
-                    PressButtonText.text = "Press E";
-                    interactionText.text = "Лечь спать";
-
-                    if (Input.GetKeyDown(KeyCode.E))
-                    {
-                        DC.GoToSleep();
-                    }
+                    ShowBedControllInfo();
                     break;
 
                 case "SellPoint":
-
-                    if (Camera.main.transform.GetChild(0).gameObject.GetComponent<PCSellInfo>().pcAssembled)
-                    {
-                        PressButtonText.gameObject.SetActive(true);
-                        PressButtonText.text = "Press E";
-                        interactionText.text = "Выставить на продажу";
-
-                        if (Input.GetKeyDown(KeyCode.E))
-                        {
-                           PUFSS.StartSale(hit.collider.gameObject);
-                        }
-                    }
-                    break;
-
-                case "PowerUnit":
-                case "VideoCard":
-                case "MotherBoard":
-                case "RAM":
-                case "CPU":
-                case "Body":
-                case "Storage":
-                case "CPUFan":
-                    PressButtonText.gameObject.SetActive(true);
-                    PressButtonText.text = "Press E";
-                    interactionText.text = "Подобрать";
+                    ShowSellPointControllInfo(hit.collider.gameObject);     
                     break;
 
                 default:
-                    PressButtonText.gameObject.SetActive(false);
+                    HideControllInfo();
                     break;
             }
         }
         else
         {
+            HideControllInfo();
+        }
+    }
+
+    private void CheckCollectableIteComponent()
+    {
+        PressButtonText.gameObject.SetActive(true);
+        PressButtonText.text = "Press E";
+        interactionText.text = "Подобрать";
+    }
+
+    private void ShowComputerControllInfo()
+    {
+        PressButtonText.gameObject.SetActive(true);
+        PressButtonText.text = "Press E";
+        interactionText.text = "Использовать компьютер";
+
+        if (Input.GetKeyDown(KeyCode.E) && !StateController.pcMode)
+        {
+            CC.ChangePcMode();
             PressButtonText.gameObject.SetActive(false);
         }
+        else if (Input.GetKeyDown(KeyCode.Escape) && StateController.pcMode)
+        {
+            CC.ChangePcMode();
+        }
+    }
+
+    private void ShowPartConnectorControllInfo()
+    {
+        PressButtonText.gameObject.SetActive(true);
+        PressButtonText.text = "Press F";
+        interactionText.text = "Установить деталь";
+    }
+
+    private void ShowBedControllInfo()
+    {
+        PressButtonText.gameObject.SetActive(true);
+        PressButtonText.text = "Press E";
+        interactionText.text = "Лечь спать";
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            DC.GoToSleep();
+        }
+    }
+
+    private void ShowSellPointControllInfo(GameObject hit)
+    {
+        if (PCAssembler.CanSell)
+        {
+            PressButtonText.gameObject.SetActive(true);
+            PressButtonText.text = "Press E";
+            interactionText.text = "Выставить на продажу";
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                PUFSS.StartSale(hit);
+            }
+        }
+    }
+
+    private void HideControllInfo()
+    {
+        PressButtonText.gameObject.SetActive(false);
     }
 }
