@@ -9,7 +9,36 @@ public class MoneyController : MonoBehaviour
 
     public static int money = 17000;
 
-    private void Update()
+    private void Start()
+    {
+        ReloadMoneyText();
+    }
+
+    private void OnEnable()
+    {
+        PutUpForSaleSystem.onSale += AddMoney;
+        BuyUsedPartsSystem.onPurchase += MinusMoney;
+    }
+
+    private void OnDisable()
+    {
+        PutUpForSaleSystem.onSale -= AddMoney;
+        BuyUsedPartsSystem.onPurchase -= MinusMoney;
+    }
+
+    private void MinusMoney(int amount)
+    {
+        money -= amount;
+        ReloadMoneyText();
+    }
+
+    private void AddMoney(int amount)
+    {
+        money += amount;
+        ReloadMoneyText();
+    }
+
+    private void ReloadMoneyText()
     {
         moneyText.text = "Δενεγ: " + money.ToString();
     }

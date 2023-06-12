@@ -29,7 +29,7 @@ public class RaycastSystem : MonoBehaviour
         ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
         
-        if (Physics.Raycast(ray, out hit, maxUsableDistance))
+        if (Physics.Raycast(ray, out hit, maxUsableDistance) && !CarController.driveMode)
         {
             if (hit.collider.gameObject.GetComponent<CollectableItem>())
             {
@@ -53,6 +53,11 @@ public class RaycastSystem : MonoBehaviour
 
                 case "SellPoint":
                     ShowSellPointControllInfo(hit.collider.gameObject);     
+                    break;
+
+                case "Car":
+                    if (!CarController.driveMode)
+                        ShowCarControllInfo(hit.collider.gameObject);
                     break;
 
                 default:
@@ -121,6 +126,19 @@ public class RaycastSystem : MonoBehaviour
             {
                 PUFSS.StartSale(hit);
             }
+        }
+    }
+
+    private void ShowCarControllInfo(GameObject hit)
+    {
+        PressButtonText.gameObject.SetActive(true);
+        PressButtonText.text = "Press E";
+        interactionText.text = "Сесть в машину";
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+           hit.transform.parent.GetComponent<CarController>().EnterDriveMode();
+            HideControllInfo();
         }
     }
 

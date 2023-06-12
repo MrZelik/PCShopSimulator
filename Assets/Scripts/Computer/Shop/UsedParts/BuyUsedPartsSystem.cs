@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BuyUsedPartsSystem : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class BuyUsedPartsSystem : MonoBehaviour
 
     [Header("Other")]
     [SerializeField] GameObject SpawnZone;
+
+    public static Action<int> onPurchase;
 
     public void BuyPart(int slotId, GameObject Sender, int price)
     {
@@ -21,7 +24,7 @@ public class BuyUsedPartsSystem : MonoBehaviour
             part.GetComponent<PartBuildLogic>().price = slot.partPrice;
             Sender.GetComponent<UsedPartsController>().DeletePost(slotId);
 
-            MoneyController.money -= price;
+            onPurchase?.Invoke(price);
         }
         else
         {

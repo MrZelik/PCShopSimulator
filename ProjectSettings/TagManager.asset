@@ -18,6 +18,7 @@ TagManager:
   - SellPoint
   - CPUFan
   - BodyFan
+  - Car
   layers:
   - Default
   - TransparentFX

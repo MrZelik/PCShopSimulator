@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class PutUpForSaleSystem : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PutUpForSaleSystem : MonoBehaviour
     [SerializeField] private GameObject PutUpForm;
     [SerializeField] private TextMeshProUGUI RecPriceText;
     [SerializeField] private TMP_InputField inputPrice;
+
+    public static Action<int> onSale;
 
     private int pcPrice;
 
@@ -61,7 +64,8 @@ public class PutUpForSaleSystem : MonoBehaviour
         PSI.SetSellAttributes(pcPrice);
         CheckStandPos(PC);
 
-        MoneyController.money += pcPrice;
+        onSale?.Invoke(pcPrice);
+
         ChangeSellMode();
 
         itemCollector.SellPC();

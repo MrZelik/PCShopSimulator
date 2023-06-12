@@ -23,7 +23,7 @@ public class CursorController : MonoBehaviour
 
         RaycastHit hit;
 
-        if (Physics.Raycast(RaycastSystem.ray, out hit, RaycastSystem.maxUsableDistance))
+        if (Physics.Raycast(RaycastSystem.ray, out hit, RaycastSystem.maxUsableDistance) && !CarController.driveMode)
         {
             if (hit.collider.gameObject.GetComponent<CollectableItem>())
             {
@@ -37,6 +37,7 @@ public class CursorController : MonoBehaviour
                 case "PartConnector":
                 case "Bed":
                 case "SellPoint":
+                case "Car":
                     SetCursorGreenColor();
                     break;
 
