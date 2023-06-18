@@ -19,6 +19,7 @@ TagManager:
   - CPUFan
   - BodyFan
   - Car
+  - CarBackDoor
   layers:
   - Default
   - TransparentFX
@@ -31,7 +32,7 @@ TagManager:
   - Part
   - PartConnector
   - SellPoint
-  - 
+  - InteractableItem
   - 
   - 
   - 

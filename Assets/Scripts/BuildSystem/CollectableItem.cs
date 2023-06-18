@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CollectableItem : MonoBehaviour
 {
+    [SerializeField] GameObject ColliderGO;
+
     public bool isBody = false;
     public Transform TakePos;
     public Quaternion TakeRotate;
@@ -38,7 +40,11 @@ public class CollectableItem : MonoBehaviour
 
     public void TakePart()
     {
-        Collider.isTrigger = true;
+        if (isBody)
+            ColliderGO.SetActive(false);
+        else
+            Collider.isTrigger = true;
+        
         rigidBody.isKinematic = true;
         partBuildLogic.equiped = true;
         transform.parent = null;
@@ -59,9 +65,13 @@ public class CollectableItem : MonoBehaviour
 
     public void DropPart()
     {
-        Collider.isTrigger = false;
+        if (isBody)
+            ColliderGO.SetActive(true);
+        else
+            Collider.isTrigger = false;
+
         rigidBody.isKinematic = false;
-        rigidBody.AddForce(transform.parent.transform.forward * 100);
+        rigidBody.AddForce(transform.parent.transform.forward * 150);
         partBuildLogic.equiped = false;
         transform.parent = null;
     }

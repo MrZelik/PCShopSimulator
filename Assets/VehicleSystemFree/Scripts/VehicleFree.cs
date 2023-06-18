@@ -102,7 +102,11 @@ public class VehicleFree : MonoBehaviour {
     void FixedUpdate()
     {
         if (!CarController.driveMode)
+        {
+            rb.velocity = Vector3.zero;
             return;
+        }
+            
 
         // Automatic or manual gear control
         GearControl();

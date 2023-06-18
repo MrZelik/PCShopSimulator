@@ -6,6 +6,7 @@ using TMPro;
 public class MoneyController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI moneyText;
+    [SerializeField] private TextMeshProUGUI pcMoneyText;
 
     public static int money = 17000;
 
@@ -40,6 +41,7 @@ public class MoneyController : MonoBehaviour
 
     private void ReloadMoneyText()
     {
-        moneyText.text = "Денег: " + money.ToString();
+        moneyText.text = "Баланс: " + money.ToString() + "Р";
+        pcMoneyText.text = "Баланс: " + money.ToString() + "Р";
     }
 }

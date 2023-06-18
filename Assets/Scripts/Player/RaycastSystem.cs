@@ -2,148 +2,93 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 
 public class RaycastSystem : MonoBehaviour
 {
     public float maxUsableDistance;
-    public TextMeshProUGUI PressButtonText;
-    [SerializeField] private GameObject ComputerControllerGO;
-    [SerializeField] private TextMeshProUGUI interactionText;
-    [SerializeField] private GameObject Controller;
-
+    
     public Ray ray;
 
-    ComputerController CC;
-    DayController DC;
-    PutUpForSaleSystem PUFSS;
+    ControllInfoController controllInfoController;
+    CursorController cursorController;
+    ItemCollector itemCollector;
 
     private void Start()
     {
-        CC = ComputerControllerGO.GetComponent<ComputerController>();
-        DC = Controller.GetComponent<DayController>();
-        PUFSS = Controller.GetComponent<PutUpForSaleSystem>();
+        controllInfoController = GetComponent<ControllInfoController>();
+        cursorController = GetComponent<CursorController>();
+        itemCollector = GetComponent<ItemCollector>();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
-        
-        if (Physics.Raycast(ray, out hit, maxUsableDistance) && !CarController.driveMode)
+
+        if (CarController.driveMode)
+        {
+            cursorController.HideCursor();
+            controllInfoController.HideControllInfo();
+            return;
+        }
+
+        if (Physics.Raycast(ray, out hit, maxUsableDistance, 1 << 8 | 1 << 9 | 1 << 10 | 1 << 11))
         {
             if (hit.collider.gameObject.GetComponent<CollectableItem>())
             {
-                CheckCollectableIteComponent();
+                controllInfoController.CheckCollectableIteComponent();
+                cursorController.SetCursorGreenColor();
+
+                if (Input.GetKeyDown(KeyCode.E) && itemCollector.Part == null)
+                {
+                    itemCollector.TakePart(hit.collider.gameObject);
+                }
                 return;
             }
 
             switch (hit.collider.gameObject.tag)
             {
                 case "Computer":
-                    ShowComputerControllInfo();
+                    controllInfoController.ShowComputerControllInfo();
+                    cursorController.SetCursorGreenColor();
                     break;
 
                 case "PartConnector":
-                    ShowPartConnectorControllInfo();
+                    controllInfoController.ShowPartConnectorControllInfo();
+                    cursorController.SetCursorGreenColor();
                     break;
 
                 case "Bed":
-                    ShowBedControllInfo();
+                    controllInfoController.ShowBedControllInfo();
+                    cursorController.SetCursorGreenColor();
                     break;
 
                 case "SellPoint":
-                    ShowSellPointControllInfo(hit.collider.gameObject);     
+                    controllInfoController.ShowSellPointControllInfo(hit.collider.gameObject);
+                    cursorController.SetCursorGreenColor();
                     break;
 
                 case "Car":
-                    if (!CarController.driveMode)
-                        ShowCarControllInfo(hit.collider.gameObject);
+                    controllInfoController.ShowCarControllInfo(hit.collider.gameObject);
+                    cursorController.SetCursorGreenColor();
+                    break;
+
+                case "CarBackDoor":
+                    controllInfoController.ShowCarBackDoorControllInfo();
+                    cursorController.SetCursorGreenColor();
                     break;
 
                 default:
-                    HideControllInfo();
+                    controllInfoController.HideControllInfo();
+                    cursorController.SetCursorWhiteColor();
                     break;
             }
         }
         else
         {
-            HideControllInfo();
+            controllInfoController.HideControllInfo();
+            cursorController.SetCursorWhiteColor();
         }
-    }
-
-    private void CheckCollectableIteComponent()
-    {
-        PressButtonText.gameObject.SetActive(true);
-        PressButtonText.text = "Press E";
-        interactionText.text = "Подобрать";
-    }
-
-    private void ShowComputerControllInfo()
-    {
-        PressButtonText.gameObject.SetActive(true);
-        PressButtonText.text = "Press E";
-        interactionText.text = "Использовать компьютер";
-
-        if (Input.GetKeyDown(KeyCode.E) && !StateController.pcMode)
-        {
-            CC.ChangePcMode();
-            PressButtonText.gameObject.SetActive(false);
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape) && StateController.pcMode)
-        {
-            CC.ChangePcMode();
-        }
-    }
-
-    private void ShowPartConnectorControllInfo()
-    {
-        PressButtonText.gameObject.SetActive(true);
-        PressButtonText.text = "Press F";
-        interactionText.text = "Установить деталь";
-    }
-
-    private void ShowBedControllInfo()
-    {
-        PressButtonText.gameObject.SetActive(true);
-        PressButtonText.text = "Press E";
-        interactionText.text = "Лечь спать";
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            DC.GoToSleep();
-        }
-    }
-
-    private void ShowSellPointControllInfo(GameObject hit)
-    {
-        if (PCAssembler.CanSell)
-        {
-            PressButtonText.gameObject.SetActive(true);
-            PressButtonText.text = "Press E";
-            interactionText.text = "Выставить на продажу";
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                PUFSS.StartSale(hit);
-            }
-        }
-    }
-
-    private void ShowCarControllInfo(GameObject hit)
-    {
-        PressButtonText.gameObject.SetActive(true);
-        PressButtonText.text = "Press E";
-        interactionText.text = "Сесть в машину";
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-           hit.transform.parent.GetComponent<CarController>().EnterDriveMode();
-            HideControllInfo();
-        }
-    }
-
-    private void HideControllInfo()
-    {
-        PressButtonText.gameObject.SetActive(false);
     }
 }

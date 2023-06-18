@@ -10,6 +10,7 @@ public class ItemCollector : MonoBehaviour
     public GameObject ItemControllInfo;
 
     RaycastSystem raycastSystem;
+    ControllInfoController ControllInfoController;
 
     public GameObject Part = null;
     
@@ -17,6 +18,7 @@ public class ItemCollector : MonoBehaviour
     private void Start()
     {
         raycastSystem = GetComponent<RaycastSystem>();
+        ControllInfoController = GetComponent<ControllInfoController>();
     }
 
     private void Update()
@@ -25,31 +27,11 @@ public class ItemCollector : MonoBehaviour
         {
             DropPart();
         }
-
-        CheckPart();
     }
 
-
-    private void CheckPart()
+    public void TakePart(GameObject hitGO)
     {
-        RaycastHit hit;
-
-        if (Physics.Raycast(raycastSystem.ray, out hit, raycastSystem.maxUsableDistance))
-        {
-            if (Input.GetKeyDown(KeyCode.E) && Part == null && hit.collider.gameObject.GetComponent<CollectableItem>())
-            {
-                Part = hit.collider.gameObject;
-                TakePart();
-            }
-        }
-        else
-        {
-            raycastSystem.PressButtonText.gameObject.SetActive(false);
-        }
-    }
-
-    private void TakePart()
-    {
+        Part = hitGO;
         CollectableItem CI = Part.gameObject.GetComponent<CollectableItem>();
 
         if (CI.PCSellCheck())

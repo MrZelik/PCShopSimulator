@@ -28,7 +28,7 @@ public class PutUpForSaleSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Camera.main.transform.childCount >= 1)
+        if (Camera.main.gameObject.transform.childCount != 0)
         {
             if (Camera.main.transform.GetChild(0).gameObject.GetComponent<PCSellInfo>().pcAssembled)
             {

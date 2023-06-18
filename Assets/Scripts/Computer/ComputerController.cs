@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ComputerController : MonoBehaviour
 {
-    [SerializeField] private GameObject ComputerScreen;
+    [SerializeField] private GameObject MainCanvas;
 
     public void ChangePcMode()
     {
@@ -15,7 +15,7 @@ public class ComputerController : MonoBehaviour
             Cursor.visible = true;
             StateController.pcMode = true;
             StateController.canMove = false;
-            ComputerScreen.SetActive(true);
+            MainCanvas.SetActive(false);
         }
         else
         {
@@ -23,7 +23,7 @@ public class ComputerController : MonoBehaviour
             Cursor.visible = false;
             StateController.pcMode = false;
             StateController.canMove = true;
-            ComputerScreen.SetActive(false);
+            MainCanvas.SetActive(true);
         }
     }
 }

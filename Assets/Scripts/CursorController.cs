@@ -17,65 +17,22 @@ public class CursorController : MonoBehaviour
         RaycastSystem= GetComponent<RaycastSystem>();
     }
 
-    private void Update()
+    public void HideCursor()
     {
-        ChangeCursorMode();
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(RaycastSystem.ray, out hit, RaycastSystem.maxUsableDistance) && !CarController.driveMode)
-        {
-            if (hit.collider.gameObject.GetComponent<CollectableItem>())
-            {
-                CheckCollectableIteComponent();
-                return;
-            }
-
-            switch (hit.collider.gameObject.tag) 
-            {
-                case "Computer":
-                case "PartConnector":
-                case "Bed":
-                case "SellPoint":
-                case "Car":
-                    SetCursorGreenColor();
-                    break;
-
-                default:
-                    SetCursorWhiteColor();
-                    break;
-            }   
-        }
-        else
-        {
-            SetCursorWhiteColor();
-        }
+        CursorImage.gameObject.SetActive(false);
     }
 
-    private void ChangeCursorMode()
+    public void ShowCursor()
     {
-        if (StateController.pcMode)
-        {
-            CursorImage.gameObject.SetActive(false);
-            return;
-        }
-        else
-        {
-            CursorImage.gameObject.SetActive(true);
-        }
+        CursorImage.gameObject.SetActive(true);
     }
 
-    private void CheckCollectableIteComponent()
-    {
-        SetCursorGreenColor();
-    }
-
-    private void SetCursorWhiteColor()
+    public void SetCursorWhiteColor()
     {
         CursorImage.color = Color.white;
     }
 
-    private void SetCursorGreenColor()
+    public void SetCursorGreenColor()
     {
         CursorImage.color = Color.green;
     }

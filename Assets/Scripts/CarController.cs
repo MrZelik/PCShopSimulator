@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class CarController : MonoBehaviour
@@ -9,22 +10,28 @@ public class CarController : MonoBehaviour
     [SerializeField] private Camera carCamera;
     [SerializeField] private Camera playerCamera;
     [SerializeField] Transform PlayerExitPos;
+    [SerializeField] GameObject cursorControllerGO;
 
     public static bool driveMode = false;
 
     Rigidbody Rigidbody;
+    CursorController cursorController;
+    ControllInfoController controllInfoController;
 
     private void Start()
     {
         Rigidbody = GetComponent<Rigidbody>();
 
+       
+
         playerCamera = GetComponent<Camera>();
         playerCamera = Camera.main;
-
+        cursorController = playerCamera.gameObject.GetComponent<CursorController>();
+        controllInfoController = playerCamera.gameObject.GetComponent<ControllInfoController>();
         driveMode = false;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (Input.GetKeyDown(KeyCode.E) && driveMode)
         {
@@ -34,8 +41,11 @@ public class CarController : MonoBehaviour
 
     public void EnterDriveMode()
     {
-        print("12");
         driveMode = true;
+        StateController.canMove = false;
+
+        cursorController.HideCursor();
+        controllInfoController.HideControllInfo();
         playerCamera.enabled = false;
         carCamera.enabled = true;
 
@@ -44,8 +54,13 @@ public class CarController : MonoBehaviour
 
     public void ExitDriveMode()
     {
-        print("321");
+        StateController.canMove = true;
+
         driveMode = false;
+
+        cursorController.ShowCursor();
+        controllInfoController.HideControllInfo();
+        
         carCamera.enabled = false;
         playerCamera.enabled = true;
 
