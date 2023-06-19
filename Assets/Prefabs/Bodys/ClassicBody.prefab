@@ -373,7 +373,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2428694738304053093}
-  - component: {fileID: 5275897089292940202}
+  - component: {fileID: 3275093586418804027}
   - component: {fileID: 3592711483226800501}
   - component: {fileID: 8218352193652754858}
   - component: {fileID: 8276749171930229209}
@@ -413,7 +413,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5275897089292940202
+--- !u!114 &3275093586418804027
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -422,32 +422,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 3098375748042978783}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 907425c50fcae2446975bac69fa2d8b5, type: 3}
+  m_Script: {fileID: 11500000, guid: c5e0fb365ede3414482a28044622cfbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partConnector: {x: 0, y: 0, z: 0}
-  partRotator: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  Connectors:
+  <Connectors>k__BackingField:
   - {fileID: 4055508674548682180}
   - {fileID: 8605868600315802374}
   - {fileID: 1543233368399890652}
   - {fileID: 7068642182142765346}
-  connectorTags:
+  <connectorTags>k__BackingField:
   - PowerUnit
   - MotherBoard
   - Storage
   - Storage
-  installedParts:
+  <installedParts>k__BackingField:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  price: 0
-  installedId: 0
-  isBody: 1
-  BodySideWall: {fileID: 5755793531117050988}
-  equiped: 0
-  installed: 0
+  <partConnector>k__BackingField: {x: 0, y: 0, z: 0}
+  <partRotator>k__BackingField: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  <installed>k__BackingField: 0
+  BodySideWall: {fileID: 880823332828413716}
 --- !u!114 &3592711483226800501
 MonoBehaviour:
   m_ObjectHideFlags: 0

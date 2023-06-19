@@ -12,9 +12,8 @@ public class ItemCollector : MonoBehaviour
     RaycastSystem raycastSystem;
     ControllInfoController ControllInfoController;
 
-    public GameObject Part = null;
+    public static GameObject Part = null;
     
-
     private void Start()
     {
         raycastSystem = GetComponent<RaycastSystem>();
@@ -40,7 +39,6 @@ public class ItemCollector : MonoBehaviour
             return;
         }
 
-        CI.RemovalPart();
         CI.TakePart();
         CI.SetPosition(PartPos);
         SetParentForPart(hitGO);

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PartBuildLogic : MonoBehaviour, ICollectable
+public class PartBuildLogic : MonoBehaviour
 {
     [SerializeField] private Vector3 partConnector;
     [SerializeField] private Quaternion partRotator;
@@ -24,12 +24,10 @@ public class PartBuildLogic : MonoBehaviour, ICollectable
     public bool installed = false;
 
     Collider Collider;
-    RaycastSystem raycastSystem;
 
     private void Start()
     {
         Player = Camera.main.gameObject;
-        raycastSystem = Player.GetComponent<RaycastSystem>();
 
         Collider = GetComponent<Collider>();
     }
@@ -54,7 +52,7 @@ public class PartBuildLogic : MonoBehaviour, ICollectable
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(raycastSystem.ray, out hit, raycastSystem.maxUsableDistance))
+        if (Physics.Raycast(RaycastSystem.ray, out hit, RaycastSystem.maxUsableDistance))
         {
             switch (hit.collider.gameObject.tag)
             {

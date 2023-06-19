@@ -6,9 +6,9 @@ using UnityEditor.Experimental.GraphView;
 
 public class RaycastSystem : MonoBehaviour
 {
-    public float maxUsableDistance;
+    public static float maxUsableDistance = 3;
     
-    public Ray ray;
+    public static Ray ray;
 
     ControllInfoController controllInfoController;
     CursorController cursorController;
@@ -35,12 +35,12 @@ public class RaycastSystem : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, maxUsableDistance, 1 << 8 | 1 << 9 | 1 << 10 | 1 << 11))
         {
-            if (hit.collider.TryGetComponent(out ICollectable collectable))
+            if (hit.collider.gameObject.GetComponent<CollectableItem>())
             {
                 controllInfoController.CheckCollectableIteComponent();
                 cursorController.SetCursorGreenColor();
 
-                if (Input.GetKeyDown(KeyCode.E) && itemCollector.Part == null)
+                if (Input.GetKeyDown(KeyCode.E) && ItemCollector.Part == null)
                 {
                     itemCollector.TakePart(hit.collider.gameObject);
                 }

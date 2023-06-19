@@ -2,6 +2,7 @@ using UnityEngine;
 
 interface ICollectable
 {
+    bool equiped { get; set; }
     void ClearParent();
-    void SetPartPos(GameObject hitGO, GameObject hitGOParent);
+    
 }

@@ -678,6 +678,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8562509859756940230}
   - component: {fileID: -7422326028852349311}
+  - component: {fileID: 437671305163633608}
   - component: {fileID: 1979262080952563704}
   - component: {fileID: 1284336321302195767}
   - component: {fileID: -261022470228283065}
@@ -747,6 +748,37 @@ MonoBehaviour:
   BodySideWall: {fileID: 0}
   equiped: 0
   installed: 0
+--- !u!114 &437671305163633608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9052224210434769276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e0e3d2e095a810428733ab02024ee93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Connectors>k__BackingField:
+  - {fileID: 3360633861368641823}
+  - {fileID: 8289786079527821685}
+  - {fileID: 2020393337315973424}
+  - {fileID: 4968848545827344558}
+  <connectorTags>k__BackingField:
+  - VideoCard
+  - CPU
+  - RAM
+  - RAM
+  <installedParts>k__BackingField:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  <partConnector>k__BackingField: {x: -0.08, y: -0.12, z: 0.164}
+  <partRotator>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+  <installed>k__BackingField: 0
+  price: 0
 --- !u!114 &1979262080952563704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,6 +791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58652e0b82efe3a4f9e042b6f18a5aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ColliderGO: {fileID: 0}
   isBody: 0
   TakePos: {fileID: 0}
   TakeRotate: {x: 0, y: 1, z: 0, w: -0.00000004371139}
