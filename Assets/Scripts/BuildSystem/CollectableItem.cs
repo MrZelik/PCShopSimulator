@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class CollectableItem : MonoBehaviour
@@ -15,8 +16,6 @@ public class CollectableItem : MonoBehaviour
     Collider Collider;
     PCSellInfo pcSellInfo;
 
-    GameObject Player;
-
     public bool PartSell;
 
     private void Awake()
@@ -25,8 +24,6 @@ public class CollectableItem : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         Collider = GetComponent<Collider>();
         pcSellInfo = GetComponent<PCSellInfo>();
-
-        Player = Camera.main.gameObject;
     }
 
     public void RemovalPart()
@@ -54,7 +51,10 @@ public class CollectableItem : MonoBehaviour
     public void SetPosition(Vector3 PartPos)
     {
         transform.position = PartPos;
-        transform.SetParent(Player.transform, false);
+    }
+
+    public void SetLocalPosition(Vector3 PartPos)
+    {
         transform.localPosition -= TakePos.localPosition;
     }
 
@@ -71,9 +71,10 @@ public class CollectableItem : MonoBehaviour
             Collider.isTrigger = false;
 
         rigidBody.isKinematic = false;
-        rigidBody.AddForce(transform.parent.transform.forward * 150);
+        rigidBody.AddForce(transform.parent.transform.forward * 100);
         partBuildLogic.equiped = false;
         transform.parent = null;
+
     }
 
     public void SetInstalledID(int id)

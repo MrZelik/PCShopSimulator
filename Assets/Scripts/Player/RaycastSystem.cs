@@ -35,7 +35,7 @@ public class RaycastSystem : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, maxUsableDistance, 1 << 8 | 1 << 9 | 1 << 10 | 1 << 11))
         {
-            if (hit.collider.gameObject.GetComponent<CollectableItem>())
+            if (hit.collider.TryGetComponent(out ICollectable collectable))
             {
                 controllInfoController.CheckCollectableIteComponent();
                 cursorController.SetCursorGreenColor();

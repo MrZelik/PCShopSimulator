@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PartBuildLogic : MonoBehaviour
+public class PartBuildLogic : MonoBehaviour, ICollectable
 {
     [SerializeField] private Vector3 partConnector;
     [SerializeField] private Quaternion partRotator;
@@ -119,7 +119,7 @@ public class PartBuildLogic : MonoBehaviour
         }
     }
 
-    private void ClearParent()
+    public void ClearParent()
     {
         transform.parent = null;
     }
@@ -144,7 +144,7 @@ public class PartBuildLogic : MonoBehaviour
             ParentPBL.Connectors[i].SetActive(false);
     }
 
-    private void SetPartPos(GameObject hitGO, GameObject hitGOParent)
+    public void SetPartPos(GameObject hitGO, GameObject hitGOParent)
     {
         Vector3 connectPos = hitGO.transform.localPosition;
         transform.position = connectPos;

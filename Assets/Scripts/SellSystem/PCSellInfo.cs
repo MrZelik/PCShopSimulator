@@ -32,23 +32,10 @@ public class PCSellInfo : MonoBehaviour
         pcSellInfo = GetComponent<PCSellInfo>();
     }
 
-    public void Update()
-    {
-        if (Body && PowerUnit && MotherBoard && VideoCard && CPU && RAM[0] && Storage[0])
-        {
-            pcAssembled = true;
-            PCAssembler.CanSell = true;
-        }
-        else
-        {
-            pcAssembled = false;
-            PCAssembler.CanSell = false;
-        }
-    }
-
     public void FindParts()
     {
         ClearAllParts();
+        CheckAssembled();
 
         Body = gameObject;
 
@@ -138,6 +125,18 @@ public class PCSellInfo : MonoBehaviour
         CPUFan = null;
         Storage.Clear();
         StateController.assemblingMode = false;
+    }
+
+    private void CheckAssembled()
+    {
+        if (Body && PowerUnit && MotherBoard && VideoCard && CPU && RAM[0] && Storage[0])
+        {
+            pcAssembled = true;
+        }
+        else
+        {
+            pcAssembled = false;
+        }
     }
 
     public void SetSellAttributes(int price)

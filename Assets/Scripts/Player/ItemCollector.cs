@@ -43,9 +43,16 @@ public class ItemCollector : MonoBehaviour
         CI.RemovalPart();
         CI.TakePart();
         CI.SetPosition(PartPos);
+        SetParentForPart(hitGO);
+        CI.SetLocalPosition(PartPos);
         CI.FindPCPrice();
         
         ItemControllInfo.SetActive(true);
+    }
+
+    private void SetParentForPart(GameObject hitGO)
+    {
+        hitGO.transform.SetParent(transform, false);
     }
 
     private void DropPart()

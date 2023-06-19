@@ -17,13 +17,13 @@ public class MoneyController : MonoBehaviour
 
     private void OnEnable()
     {
-        PutUpForSaleSystem.onSale += AddMoney;
+        SellSlot.onSale += AddMoney;
         BuyUsedPartsSystem.onPurchase += MinusMoney;
     }
 
     private void OnDisable()
     {
-        PutUpForSaleSystem.onSale -= AddMoney;
+        SellSlot.onSale -= AddMoney;
         BuyUsedPartsSystem.onPurchase -= MinusMoney;
     }
 

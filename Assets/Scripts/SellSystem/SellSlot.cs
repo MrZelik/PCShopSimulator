@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class PutUpForSaleSystem : MonoBehaviour
+public class SellSlot : MonoBehaviour
 {
     [SerializeField] private GameObject[] SellPoints;
     [SerializeField] private GameObject[] PCOnSell;
@@ -19,7 +19,7 @@ public class PutUpForSaleSystem : MonoBehaviour
     private GameObject StandPos;
     private GameObject PC;
 
-    ItemCollector itemCollector;
+    public ItemCollector itemCollector;
 
     private void Start()
     {

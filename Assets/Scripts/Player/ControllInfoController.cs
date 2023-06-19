@@ -10,10 +10,11 @@ public class ControllInfoController : MonoBehaviour
     [SerializeField] private GameObject ComputerControllerGO;
     [SerializeField] private TextMeshProUGUI interactionText;
     [SerializeField] private GameObject Controller;
+    [SerializeField] private GameObject SellSlotGo;
 
     ComputerController CC;
     DayController DC;
-    PutUpForSaleSystem PUFSS;
+    SellSlot SellSlot;
 
     public static Action OpenCarBackDoor;
     public static Action CloseCarBackDoor;
@@ -22,7 +23,7 @@ public class ControllInfoController : MonoBehaviour
     {
         CC = ComputerControllerGO.GetComponent<ComputerController>();
         DC = Controller.GetComponent<DayController>();
-        PUFSS = Controller.GetComponent<PutUpForSaleSystem>();
+        SellSlot =SellSlotGo.GetComponent<SellSlot>();
     }
 
     private void Update()
@@ -78,16 +79,13 @@ public class ControllInfoController : MonoBehaviour
 
     public void ShowSellPointControllInfo(GameObject hit)
     {
-        if (PCAssembler.CanSell)
-        {
-            PressButtonText.gameObject.SetActive(true);
-            PressButtonText.text = "Press E";
-            interactionText.text = "Выставить на продажу";
+        PressButtonText.gameObject.SetActive(true);
+        PressButtonText.text = "Press E";
+        interactionText.text = "Выставить на продажу";
 
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                PUFSS.StartSale(hit);
-            }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            SellSlot.StartSale(hit);
         }
     }
 
