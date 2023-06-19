@@ -29922,7 +29922,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClassicMotherBoard
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -7422326028852349311, guid: a5c30bb29c7880e47b027a551a01a70d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a5c30bb29c7880e47b027a551a01a70d, type: 3}
 --- !u!1 &748916706
 GameObject:
@@ -39069,7 +39070,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e556e93b0d2bb144bab9fcb31ddf9bae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxUsableDistance: 3
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39085,7 +39085,6 @@ MonoBehaviour:
   PartPos: {x: 0.5, y: -0.4, z: 1}
   Player: {fileID: 963194225}
   ItemControllInfo: {fileID: 101787889}
-  Part: {fileID: 0}
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
