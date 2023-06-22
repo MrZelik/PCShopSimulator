@@ -3,9 +3,22 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ComputerController : MonoBehaviour
+public class ComputerController : MonoBehaviour, IController
 {
     [SerializeField] private GameObject MainCanvas;
+
+    public void Interact()
+    {
+        ChangePcMode();
+    }
+
+    private void Update()
+    {
+        if (StateController.pcMode && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)))
+        {
+            ChangePcMode();
+        }
+    }
 
     public void ChangePcMode()
     {

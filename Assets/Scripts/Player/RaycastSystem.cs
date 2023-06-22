@@ -6,9 +6,9 @@ using UnityEditor.Experimental.GraphView;
 
 public class RaycastSystem : MonoBehaviour
 {
-    public static float maxUsableDistance = 3;
+    public float maxUsableDistance;
     
-    public static Ray ray;
+    public Ray ray;
 
     ControllInfoController controllInfoController;
     CursorController cursorController;
@@ -24,7 +24,7 @@ public class RaycastSystem : MonoBehaviour
     private void LateUpdate()
     {
         ray = new Ray(transform.position, transform.forward);
-        RaycastHit hit;
+        
 
         if (CarController.driveMode)
         {
@@ -33,56 +33,47 @@ public class RaycastSystem : MonoBehaviour
             return;
         }
 
+        Raycast();
+    }
+
+    private void Raycast()
+    {
+        RaycastHit hit;
+
         if (Physics.Raycast(ray, out hit, maxUsableDistance, 1 << 8 | 1 << 9 | 1 << 10 | 1 << 11))
         {
-            if (hit.collider.gameObject.GetComponent<CollectableItem>())
+            if (hit.collider.TryGetComponent(out ICollectable collectable))
             {
-                controllInfoController.CheckCollectableIteComponent();
+                controllInfoController.ShowCollectableControllInfo();
                 cursorController.SetCursorGreenColor();
 
-                if (Input.GetKeyDown(KeyCode.E) && ItemCollector.Part == null)
+                if (Input.GetKeyDown(KeyCode.E) && itemCollector.Part == null)
                 {
-                    itemCollector.TakePart(hit.collider.gameObject);
+                    collectable.Interact();
                 }
                 return;
             }
-
-            switch (hit.collider.gameObject.tag)
+            else if (hit.collider.TryGetComponent(out IController controller))
             {
-                case "Computer":
-                    controllInfoController.ShowComputerControllInfo();
-                    cursorController.SetCursorGreenColor();
-                    break;
+                controllInfoController.ShowControllersControllInfo();
+                cursorController.SetCursorGreenColor();
 
-                case "PartConnector":
-                    controllInfoController.ShowPartConnectorControllInfo();
-                    cursorController.SetCursorGreenColor();
-                    break;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    controller.Interact();
+                }
+                return;
+            }
+            else if(hit.collider.transform.parent.TryGetComponent(out ISlot slot))
+            {
+                controllInfoController.ShowSlotsControllInfo();
+                cursorController.SetCursorGreenColor();
 
-                case "Bed":
-                    controllInfoController.ShowBedControllInfo();
-                    cursorController.SetCursorGreenColor();
-                    break;
-
-                case "SellPoint":
-                    controllInfoController.ShowSellPointControllInfo(hit.collider.gameObject);
-                    cursorController.SetCursorGreenColor();
-                    break;
-
-                case "Car":
-                    controllInfoController.ShowCarControllInfo(hit.collider.gameObject);
-                    cursorController.SetCursorGreenColor();
-                    break;
-
-                case "CarBackDoor":
-                    controllInfoController.ShowCarBackDoorControllInfo();
-                    cursorController.SetCursorGreenColor();
-                    break;
-
-                default:
-                    controllInfoController.HideControllInfo();
-                    cursorController.SetCursorWhiteColor();
-                    break;
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    slot.Interact(hit.collider.gameObject);
+                }
+                return;
             }
         }
         else

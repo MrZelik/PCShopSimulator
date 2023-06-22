@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
-using System;
 
 public class ControllInfoController : MonoBehaviour
 {
@@ -34,86 +32,25 @@ public class ControllInfoController : MonoBehaviour
         }
     }
 
-    public void CheckCollectableIteComponent()
+    public void ShowCollectableControllInfo()
     {
         PressButtonText.gameObject.SetActive(true);
         PressButtonText.text = "Press E";
         interactionText.text = "Подобрать";
     }
 
-    public void ShowComputerControllInfo()
+    public void ShowControllersControllInfo()
     {
         PressButtonText.gameObject.SetActive(true);
         PressButtonText.text = "Press E";
-        interactionText.text = "Использовать компьютер";
-
-        if (Input.GetKeyDown(KeyCode.E) && !StateController.pcMode)
-        {
-            CC.ChangePcMode();
-            PressButtonText.gameObject.SetActive(false);
-        }
-        else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)) && StateController.pcMode)
-        {
-            CC.ChangePcMode();
-        }
+        interactionText.text = "Использовать";    
     }
 
-    public void ShowPartConnectorControllInfo()
+    public void ShowSlotsControllInfo()
     {
         PressButtonText.gameObject.SetActive(true);
         PressButtonText.text = "Press F";
-        interactionText.text = "Установить деталь";
-    }
-
-    public void ShowBedControllInfo()
-    {
-        PressButtonText.gameObject.SetActive(true);
-        PressButtonText.text = "Press E";
-        interactionText.text = "Лечь спать";
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            DC.GoToSleep();
-        }
-    }
-
-    public void ShowSellPointControllInfo(GameObject hit)
-    {
-        PressButtonText.gameObject.SetActive(true);
-        PressButtonText.text = "Press E";
-        interactionText.text = "Выставить на продажу";
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            SellSlot.StartSale(hit);
-        }
-    }
-
-    public void ShowCarControllInfo(GameObject hit)
-    {
-        PressButtonText.gameObject.SetActive(true);
-        PressButtonText.text = "Press E";
-        interactionText.text = "Сесть в машину";
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            hit.transform.parent.GetComponent<CarController>().EnterDriveMode();
-        }
-    }
-
-    public void ShowCarBackDoorControllInfo()
-    {
-        PressButtonText.gameObject.SetActive(true);
-        PressButtonText.text = "Press E";
-        interactionText.text = "Использовать багажник";
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (!BackDoorOpener.doorOpen)
-                OpenCarBackDoor?.Invoke();
-            else
-                CloseCarBackDoor?.Invoke();
-        }
+        interactionText.text = "Установить";
     }
 
     public void HideControllInfo()

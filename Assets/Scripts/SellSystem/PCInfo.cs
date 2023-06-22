@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PCSellInfo : MonoBehaviour
+public class PCInfo : MonoBehaviour
 {
     public Vector3 SellPos;
 
@@ -23,24 +23,21 @@ public class PCSellInfo : MonoBehaviour
 
     Collider Collider;
     Rigidbody rigidBody;
-    PCSellInfo pcSellInfo;
+    PCInfo pcSellInfo;
 
     private void Start()
     {
         Collider = GetComponent<Collider>();
         rigidBody = GetComponent<Rigidbody>();
-        pcSellInfo = GetComponent<PCSellInfo>();
+        pcSellInfo = GetComponent<PCInfo>();
     }
 
     public void FindParts()
     {
         ClearAllParts();
-        CheckAssembled();
-
-        Body = gameObject;
-
         SearchPartsOnBody();
-
+        Body = gameObject;
+        CheckAssembled();
         FindPrice();
     }
 
@@ -124,7 +121,6 @@ public class PCSellInfo : MonoBehaviour
         CPU = null;
         CPUFan = null;
         Storage.Clear();
-        StateController.assemblingMode = false;
     }
 
     private void CheckAssembled()
@@ -167,5 +163,10 @@ public class PCSellInfo : MonoBehaviour
         CPUFan.GetComponent<CollectableItem>().PartSell = true;
 
         VideoCard.GetComponent<CollectableItem>().PartSell = true;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        print(collision.gameObject.name);
     }
 }

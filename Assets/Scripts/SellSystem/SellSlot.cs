@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class SellSlot : MonoBehaviour
+public class SellSlot : MonoBehaviour, ISlot
 {
     [SerializeField] private GameObject[] SellPoints;
     [SerializeField] private GameObject[] PCOnSell;
@@ -30,7 +30,7 @@ public class SellSlot : MonoBehaviour
     {
         if (Camera.main.gameObject.transform.childCount != 0)
         {
-            if (Camera.main.transform.GetChild(0).gameObject.GetComponent<PCSellInfo>().pcAssembled)
+            if (Camera.main.transform.GetChild(0).gameObject.GetComponent<PCInfo>().pcAssembled)
             {
                 ShowSellPoints();
             }
@@ -45,18 +45,23 @@ public class SellSlot : MonoBehaviour
         }
     }
 
+    public void Interact(GameObject hitGO)
+    {
+        StartSale(hitGO);
+    }
+
     public void StartSale(GameObject hitGO)
     {
         StandPos = hitGO;
-        PC = Camera.main.transform.GetChild(0).gameObject.GetComponent<PCSellInfo>().Body;
-        inputPrice.text = PC.GetComponent<PCSellInfo>().pcPrice.ToString();
+        PC = Camera.main.transform.GetChild(0).gameObject.GetComponent<PCInfo>().Body;
+        inputPrice.text = PC.GetComponent<PCInfo>().pcPrice.ToString();
 
         ChangeSellMode();
     }
 
     public void PutUpForSale()
     {
-        PCSellInfo PSI = PC.GetComponent<PCSellInfo>();
+        PCInfo PSI = PC.GetComponent<PCInfo>();
 
         pcPrice = int.Parse(inputPrice.text);
 
@@ -114,7 +119,7 @@ public class SellSlot : MonoBehaviour
         }
     }
 
-    private void SetPCPosition(GameObject PC, PCSellInfo PSI)
+    private void SetPCPosition(GameObject PC, PCInfo PSI)
     {
         PC.transform.parent = null;
         PC.transform.position = StandPos.transform.position + PSI.SellPos;

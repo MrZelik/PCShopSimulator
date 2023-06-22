@@ -4,7 +4,7 @@ using System.Data;
 using UnityEditor.Animations;
 using UnityEngine;
 
-public class CarController : MonoBehaviour
+public class CarController : MonoBehaviour, IController
 {
     [SerializeField] GameObject Player;
     [SerializeField] private Camera carCamera;
@@ -21,9 +21,6 @@ public class CarController : MonoBehaviour
     private void Start()
     {
         Rigidbody = GetComponent<Rigidbody>();
-
-       
-
         playerCamera = GetComponent<Camera>();
         playerCamera = Camera.main;
         cursorController = playerCamera.gameObject.GetComponent<CursorController>();
@@ -36,7 +33,12 @@ public class CarController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && driveMode)
         {
             ExitDriveMode();
-        }
+        }    
+    }
+
+    public void Interact()
+    {
+        EnterDriveMode();
     }
 
     public void EnterDriveMode()

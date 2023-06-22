@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using Unity.VisualScripting;
 
-public class BackDoorOpener : MonoBehaviour
+public class BackDoorOpener : MonoBehaviour, IController
 {
     [SerializeField] GameObject CarRoof;
     [SerializeField] Vector3 OpenPosition;
@@ -26,6 +26,14 @@ public class BackDoorOpener : MonoBehaviour
         doorOpen = false;
         stockPosition = transform.localPosition;
         stockRotation = transform.localRotation;
+    }
+
+    public void Interact()
+    {
+        if(doorOpen)
+            CloseDoor();
+        else
+            OpenDoor();
     }
 
     private void OnEnable()

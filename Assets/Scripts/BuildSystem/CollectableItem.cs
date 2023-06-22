@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class CollectableItem : MonoBehaviour
+public class CollectableItem : MonoBehaviour, ICollectable
 {
     [SerializeField] GameObject ColliderGO;
 
@@ -14,7 +14,8 @@ public class CollectableItem : MonoBehaviour
     PartBuildLogic partBuildLogic;
     Rigidbody rigidBody;
     Collider Collider;
-    PCSellInfo pcSellInfo;
+    PCInfo pcSellInfo;
+    ItemCollector itemCollector;
 
     public bool PartSell;
 
@@ -23,7 +24,13 @@ public class CollectableItem : MonoBehaviour
         partBuildLogic = GetComponent<PartBuildLogic>();
         rigidBody = GetComponent<Rigidbody>();
         Collider = GetComponent<Collider>();
-        pcSellInfo = GetComponent<PCSellInfo>();
+        pcSellInfo = GetComponent<PCInfo>();
+        itemCollector = Camera.main.gameObject.GetComponent<ItemCollector>();
+    }
+
+    public void Interact()
+    {
+        itemCollector.TakePart(gameObject);
     }
 
     public void RemovalPart()
@@ -41,7 +48,8 @@ public class CollectableItem : MonoBehaviour
             ColliderGO.SetActive(false);
         else
             Collider.isTrigger = true;
-        
+
+        rigidBody.velocity = Vector3.zero;
         rigidBody.isKinematic = true;
         partBuildLogic.equiped = true;
         transform.parent = null;
@@ -74,7 +82,6 @@ public class CollectableItem : MonoBehaviour
         rigidBody.AddForce(transform.parent.transform.forward * 100);
         partBuildLogic.equiped = false;
         transform.parent = null;
-
     }
 
     public void SetInstalledID(int id)

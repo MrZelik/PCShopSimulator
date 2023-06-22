@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PartBuildLogic : MonoBehaviour
+public class PartBuildLogic : MonoBehaviour, ISlot
 {
     [SerializeField] private Vector3 partConnector;
     [SerializeField] private Quaternion partRotator;
@@ -24,12 +24,51 @@ public class PartBuildLogic : MonoBehaviour
     public bool installed = false;
 
     Collider Collider;
+    RaycastSystem raycastSystem;
+
+    private void Awake()
+    {
+        AddPartToContainer();
+    }
 
     private void Start()
     {
         Player = Camera.main.gameObject;
+        raycastSystem = Player.GetComponent<RaycastSystem>();
 
         Collider = GetComponent<Collider>();
+    }
+
+    private void AddPartToContainer()
+    {
+        switch (gameObject.tag)
+        {
+            case "Body":
+                ConnectorsContainer.Bodys.Add(this);
+                break;
+            case "MotherBoard":
+                ConnectorsContainer.MotherBoards.Add(this);
+                break;
+            case "CPU":
+                ConnectorsContainer.CPUs.Add(this);
+                break;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        switch (gameObject.tag)
+        {
+            case "Body":
+                ConnectorsContainer.Bodys.Remove(this);
+                break;
+            case "MotherBoard":
+                ConnectorsContainer.MotherBoards.Remove(this);
+                break;
+            case "CPU":
+                ConnectorsContainer.CPUs.Remove(this);
+                break;
+        }
     }
 
     private void Update()
@@ -38,21 +77,22 @@ public class PartBuildLogic : MonoBehaviour
         {
             SearchConnector();
         }
-        else if (StateController.assemblingMode && !equiped)
+
+        if (isBody)
         {
-            ActivateConnectors();
-        }
-        else
-        {
-            DeactivateConnectors();
+            if (StateController.assemblingMode)
+                BodySideWall.SetActive(false);
+            else
+                BodySideWall.SetActive(true);
         }
     }
+
 
     private void SearchConnector()
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(RaycastSystem.ray, out hit, RaycastSystem.maxUsableDistance))
+        if (Physics.Raycast(raycastSystem.ray, out hit, raycastSystem.maxUsableDistance))
         {
             switch (hit.collider.gameObject.tag)
             {
@@ -64,6 +104,11 @@ public class PartBuildLogic : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void Interact(GameObject hitGO)
+    {
+
     }
 
     private void InstallPart(GameObject hitGO)
@@ -84,12 +129,9 @@ public class PartBuildLogic : MonoBehaviour
         SetInstalledAttribute();
     }
 
-    private void ActivateConnectors()
+    public void ActivateConnectors()
     {
-        if (isBody)
-        {
-            BodySideWall.SetActive(false);
-        }
+        
 
         for (int i = 0; i < Connectors.Length; i++)
         {
@@ -104,12 +146,8 @@ public class PartBuildLogic : MonoBehaviour
         }
     }
 
-    private void DeactivateConnectors()
+    public void DeactivateConnectors()
     {
-        if (isBody)
-        {
-            BodySideWall.SetActive(true);
-        }
 
         for (int i = 0; i < Connectors.Length; i++)
         {

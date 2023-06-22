@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class DayController : MonoBehaviour
+public class DayController : MonoBehaviour, IController
 {
     [SerializeField] private TextMeshProUGUI dayCountText;
     
@@ -13,6 +13,11 @@ public class DayController : MonoBehaviour
     private void Start()
     {
         dayCountText.text = "Δενό: " + dayCount.ToString();    
+    }
+
+    public void Interact()
+    {
+        GoToSleep();
     }
 
     public void GoToSleep()

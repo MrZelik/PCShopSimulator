@@ -10,14 +10,15 @@ public class ItemCollector : MonoBehaviour
     public GameObject ItemControllInfo;
 
     RaycastSystem raycastSystem;
-    ControllInfoController ControllInfoController;
+    ConnectorsContainer connectorsContainer;
 
-    public static GameObject Part = null;
+    public GameObject Part = null;
     
+
     private void Start()
     {
         raycastSystem = GetComponent<RaycastSystem>();
-        ControllInfoController = GetComponent<ControllInfoController>();
+        connectorsContainer = GetComponent<ConnectorsContainer>();
     }
 
     private void Update()
@@ -26,6 +27,8 @@ public class ItemCollector : MonoBehaviour
         {
             DropPart();
         }
+
+        connectorsContainer.FindPartsType(Part);
     }
 
     public void TakePart(GameObject hitGO)
@@ -33,12 +36,13 @@ public class ItemCollector : MonoBehaviour
         Part = hitGO;
         CollectableItem CI = Part.gameObject.GetComponent<CollectableItem>();
 
-        if (CI.PCSellCheck())
+        if (CI.PCSellCheck() || (Part.gameObject.tag != "Body" && !StateController.assemblingMode && Part.GetComponent<PartBuildLogic>().installed))
         {
             Part = null;
             return;
         }
 
+        CI.RemovalPart();
         CI.TakePart();
         CI.SetPosition(PartPos);
         SetParentForPart(hitGO);
